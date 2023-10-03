@@ -18,7 +18,8 @@ def fetch_news():
     response = requests.get(url)
     data = response.json()
 
-    admin_user = User.objects.get(username='admin_username')  
+    admin_user = User.objects.get(username=settings.DJANGO_ADMIN_USERNAME)
+  
     for article in data['articles']:
         Post.objects.create(
             title=article['title'],
