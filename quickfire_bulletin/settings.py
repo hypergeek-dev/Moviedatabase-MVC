@@ -27,9 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'cloudinary',
     'django_summernote',
-    'qfb_main',
-     'news_api',
-    
+    'qfb_main',    
 ]
 
 MIDDLEWARE = [
