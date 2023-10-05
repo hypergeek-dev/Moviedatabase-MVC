@@ -1,40 +1,36 @@
-from django.shortcuts import render
-from django.views import generic
-from django.contrib.auth.models import User
-from qfb_main.models import Post
+from dotenv import load_dotenv
+import os
+load_dotenv()
 import requests
-from django.conf import settings
-import logging  # Import the logging library
+import json
+from qfb_main.models import NewsArticle 
+import logging
 
-# Initialize logging
-logging.basicConfig(level=logging.DEBUG)
+
 
 def fetch_news():
-    url = "https://newsdata.io/api/1/news?apikey=" + settings.NEWS_API_KEY
+    api_key = os.getenv('NEWS_API_KEY')
+    url = f"https://newsdata.io/api/1/news?apikey={api_key}&country=us&language=en&limit=10"
     response = requests.get(url)
-    data = response.json()
-    logging.debug(f"API Response: {data}")  # Log the API response
-
-    if data.get('Status') == 'success':
-        admin_user = User.objects.get(username=settings.DJANGO_ADMIN_USERNAME)
-        for article in data.get('articles', []):
-            try:
-                # Create a new Post object for each article
-                Post.objects.create(
-                    title=article['title'],
-                    slug=article['title'].replace(" ", "-"),
-                    author=admin_user,
-                    featured_image=article['image_url'],
-                    image_url=article['image_url'],
-                    pubDate=article['pubDate'],
-                    excerpt=article['description'][:100],
-                    content=article['content'],
-                    updated_on=article['pubDate'],
-                    created_on=article['pubDate'],
-                    status=1
-                )
-                logging.debug(f"Successfully saved article: {article['title']}")  # Log success
-            except Exception as e:
-                logging.error(f"Failed to save article: {e}")  # Log any exceptions
-    else:
-        logging.error(f"Failed to fetch articles. Status: {data.get('Status')}, Message: {data.get('message', 'Unknown error')}")
+    data = json.loads(response.text)
+    articles = data['articles']
+    
+    for article in articles:
+        try:
+            news_article, created = NewsArticle.objects.update_or_create(
+                article_id=article['article_id'],
+                defaults={
+                    'title': article['title'],
+                    'content': article['content'],
+                    'excerpt': article['description'],
+                    'source_id': article['source_id'],
+                    'source_priority': article['source_priority'],
+                    'country': article['country'],
+                    'category': article['category'],
+                    'language': article['language'],
+                    'pubDate': article['pubDate'],
+                }
+            )
+            logging.debug(f"Saved article with ID: {article['article_id']}")
+        except Exception as e:
+            logging.error(f"Failed to save article: {e}")

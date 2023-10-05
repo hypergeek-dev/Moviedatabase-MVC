@@ -1,8 +1,8 @@
 from django.contrib import admin
-from .models import Post, Comment
+from .models import NewsArticle, Comment  
 from django_summernote.admin import SummernoteModelAdmin
 
-@admin.register(Post)
+@admin.register(NewsArticle)
 class PostAdmin(SummernoteModelAdmin):
     list_display = ('title', 'slug', 'status', 'created_on')
     search_fields = ['title', 'content']
@@ -15,7 +15,7 @@ class PostAdmin(SummernoteModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'body', 'post', 'created_on', 'approved')
+    list_display = ('name', 'body', 'NewsArticle', 'created_on', 'approved')
     list_filter = ('approved', 'created_on')
     search_fields = ('name', 'email', 'body')
     actions = ['approve_comments']

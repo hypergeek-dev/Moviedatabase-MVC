@@ -8,18 +8,18 @@
         <!-- Blog Entries Column -->
         <div class="col-12 mt-3 left">
             <div class="row">
-                {% for post in post_list %}
+                {% for NewsArticle in NewsArticle_list %}
                 <div class="col-md-4">
                     <div class="card mb-4">
                         <div class="card-body">
 
-                            <a href="#" class="post-link">
-                                <h2 class="card-title">{{ post.title }}</h2>
-                                <p class="card-text">{{ post.excerpt }}</p>
+                            <a href="#" class="NewsArticle-link">
+                                <h2 class="card-title">{{ NewsArticle.title }}</h2>
+                                <p class="card-text">{{ NewsArticle.excerpt }}</p>
                             </a>
                             <hr />
-                            <p class="card-text text-muted h6">{{ post.created_on}} <i class="far fa-heart"></i>
-                                {{ post.number_of_likes }}</p>
+                            <p class="card-text text-muted h6">{{ NewsArticle.created_on}} <i class="far fa-heart"></i>
+                                {{ NewsArticle.number_of_likes }}</p>
                         </div>
                     </div>
                 </div>
