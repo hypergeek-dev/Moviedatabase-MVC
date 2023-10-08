@@ -33,7 +33,7 @@ def fetch_news():
                         defaults={
                             'title': article['title'],
                             'slug': slug,  
-                            'content': article.get('description', ''), 
+                            'content': article.get('content', ''),
                             'author_id': 1,  
                             'source_id': article['source_id'],
                             'source_priority': article['source_priority'],
