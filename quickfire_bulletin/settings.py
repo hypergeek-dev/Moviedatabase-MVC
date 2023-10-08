@@ -37,7 +37,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'quickfire_bulletin.urls'
@@ -64,8 +63,6 @@ WSGI_APPLICATION = 'quickfire_bulletin.wsgi.application'
 DATABASES = {
      'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
  }
-
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -97,8 +94,6 @@ MEDIA_URL = '/media/'
 DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
 STATIC_URL = '/static/'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -121,4 +116,3 @@ LOGGING = {
         },
     },
 }
-
