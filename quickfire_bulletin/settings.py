@@ -109,7 +109,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'handlers': {
         'file': {
-            'level': 'DEBUG',
+            'level': 'ERROR',  # Change this line
             'class': 'logging.FileHandler',
             'filename': 'debug.log',
         },
@@ -117,8 +117,9 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['file'],
-            'level': 'DEBUG',
+            'level': 'ERROR',  # And this line
             'propagate': True,
         },
     },
 }
+
