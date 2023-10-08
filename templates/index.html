@@ -12,11 +12,14 @@
                 <div class="col-md-4">
                     <div class="card mb-4">
                         <div class="card-body">
-
-                            <a href="{% url `newsarticle_detail` NewsArticle.id %}" class="NewsArticle-link">
+                            {% if NewsArticle.id %}
+                                <a href="{% url 'newsarticle_detail' NewsArticle.id %}" class="NewsArticle-link">
+                            {% endif %}
                                 <h2 class="card-title">{{ NewsArticle.title }}</h2>
                                 <p class="card-text">{{ NewsArticle.content|truncatewords:40 }}</p>
-                            </a>
+                            {% if NewsArticle.id %}
+                                </a>
+                            {% endif %}
                             <hr />
                             <p class="card-text text-muted h6">{{ NewsArticle.created_on}} <i class="far fa-heart"></i>
                                 {{ NewsArticle.number_of_likes }}</p>

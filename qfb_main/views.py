@@ -9,6 +9,7 @@ from django.utils import timezone
 from django.utils.text import slugify
 import uuid
 from qfb_main.models import NewsArticle
+import traceback  
 
 # Function to fetch news
 def fetch_news():
@@ -45,11 +46,15 @@ def fetch_news():
                     )
                     logging.debug(f"Saved article with ID: {article['article_id']}")
                 except Exception as e:
-                    logging.error(f"Failed to save article: {e}")
+                    tb_str = traceback.format_exception(etype=type(e), value=e, tb=e.__traceback__)
+                    tb_str = "".join(tb_str)
+                    logging.error(f"Failed to save article: {e}\n{tb_str}")  
         except KeyError:
             logging.error(f"API response missing 'articles' key: {response.text}")
         except Exception as e:
-            logging.error(f"An error occurred while processing the API response: {e}")
+            tb_str = traceback.format_exception(etype=type(e), value=e, tb=e.__traceback__)
+            tb_str = "".join(tb_str)
+            logging.error(f"An error occurred while processing the API response: {e}\n{tb_str}")  
     else:
         logging.error(f"API call failed with status code {response.status_code}: {response.text}")
 

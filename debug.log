@@ -3,15 +3,18 @@ Traceback (most recent call last):
   File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\core\handlers\exception.py", line 47, in inner
     response = get_response(request)
                ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\core\handlers\base.py", line 204, in _get_response
-    response = response.render()
-               ^^^^^^^^^^^^^^^^^
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\template\response.py", line 105, in render
-    self.content = self.rendered_content
-                   ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\template\response.py", line 83, in rendered_content
-    return template.render(context, self._request)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\qfb_main\views.py", line 64, in news_article_list
+    return render(request, 'index.html', {'NewsArticle_list': articles})
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\template\backends\django.py", line 61, in render
     return self.template.render(context)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -39,39 +42,48 @@ Traceback (most recent call last):
   File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\template\base.py", line 905, in render_annotated
     return self.render(context)
            ^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\templatetags\static.py", line 106, in render
-    url = self.url(context)
-          ^^^^^^^^^^^^^^^^^
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\templatetags\static.py", line 103, in url
-    return self.handle_simple(path)
-           ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\templatetags\static.py", line 118, in handle_simple
-    return staticfiles_storage.url(path)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\contrib\staticfiles\storage.py", line 147, in url
-    return self._url(self.stored_name, name, force)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\contrib\staticfiles\storage.py", line 126, in _url
-    hashed_name = hashed_name_func(*args)
-                  ^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\contrib\staticfiles\storage.py", line 417, in stored_name
-    raise ValueError("Missing staticfiles manifest entry for '%s'" % clean_name)
-ValueError: Missing staticfiles manifest entry for 'css/style.css'
+  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\template\loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\template\base.py", line 938, in render
+    bit = node.render_annotated(context)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\template\defaulttags.py", line 214, in render
+    nodelist.append(node.render_annotated(context))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\template\defaulttags.py", line 449, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\urls\base.py", line 86, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\urls\resolvers.py", line 698, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'newsarticle_detail' with arguments '('',)' not found. 1 pattern(s) tried: ['article/(?P<id>[0-9]+)/\\Z']
 "GET / HTTP/1.1" 500 145
 Internal Server Error: /
 Traceback (most recent call last):
   File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\core\handlers\exception.py", line 47, in inner
     response = get_response(request)
                ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\core\handlers\base.py", line 204, in _get_response
-    response = response.render()
-               ^^^^^^^^^^^^^^^^^
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\template\response.py", line 105, in render
-    self.content = self.rendered_content
-                   ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\template\response.py", line 83, in rendered_content
-    return template.render(context, self._request)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\qfb_main\views.py", line 64, in news_article_list
+    return render(request, 'index.html', {'NewsArticle_list': articles})
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\template\backends\django.py", line 61, in render
     return self.template.render(context)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -99,82 +111,28 @@ Traceback (most recent call last):
   File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\template\base.py", line 905, in render_annotated
     return self.render(context)
            ^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\templatetags\static.py", line 106, in render
-    url = self.url(context)
-          ^^^^^^^^^^^^^^^^^
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\templatetags\static.py", line 103, in url
-    return self.handle_simple(path)
-           ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\templatetags\static.py", line 118, in handle_simple
-    return staticfiles_storage.url(path)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\contrib\staticfiles\storage.py", line 147, in url
-    return self._url(self.stored_name, name, force)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\contrib\staticfiles\storage.py", line 126, in _url
-    hashed_name = hashed_name_func(*args)
-                  ^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\contrib\staticfiles\storage.py", line 417, in stored_name
-    raise ValueError("Missing staticfiles manifest entry for '%s'" % clean_name)
-ValueError: Missing staticfiles manifest entry for 'css/style.css'
-"GET / HTTP/1.1" 500 145
-Internal Server Error: /
-Traceback (most recent call last):
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\core\handlers\exception.py", line 47, in inner
-    response = get_response(request)
-               ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\core\handlers\base.py", line 204, in _get_response
-    response = response.render()
-               ^^^^^^^^^^^^^^^^^
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\template\response.py", line 105, in render
-    self.content = self.rendered_content
-                   ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\template\response.py", line 83, in rendered_content
-    return template.render(context, self._request)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\template\backends\django.py", line 61, in render
-    return self.template.render(context)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\template\base.py", line 170, in render
-    return self._render(context)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\template\base.py", line 162, in _render
-    return self.nodelist.render(context)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\template\loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\template\base.py", line 938, in render
     bit = node.render_annotated(context)
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\template\base.py", line 905, in render_annotated
     return self.render(context)
            ^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\template\loader_tags.py", line 150, in render
-    return compiled_parent._render(context)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\template\base.py", line 162, in _render
-    return self.nodelist.render(context)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\template\base.py", line 938, in render
-    bit = node.render_annotated(context)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\template\defaulttags.py", line 214, in render
+    nodelist.append(node.render_annotated(context))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\template\base.py", line 905, in render_annotated
     return self.render(context)
            ^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\templatetags\static.py", line 106, in render
-    url = self.url(context)
-          ^^^^^^^^^^^^^^^^^
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\templatetags\static.py", line 103, in url
-    return self.handle_simple(path)
-           ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\templatetags\static.py", line 118, in handle_simple
-    return staticfiles_storage.url(path)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\contrib\staticfiles\storage.py", line 147, in url
-    return self._url(self.stored_name, name, force)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\contrib\staticfiles\storage.py", line 126, in _url
-    hashed_name = hashed_name_func(*args)
-                  ^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\contrib\staticfiles\storage.py", line 417, in stored_name
-    raise ValueError("Missing staticfiles manifest entry for '%s'" % clean_name)
-ValueError: Missing staticfiles manifest entry for 'css/style.css'
+  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\template\defaulttags.py", line 449, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\urls\base.py", line 86, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ize_c\OneDrive\Desktop\Quickfire_bulletin1\venv\Lib\site-packages\django\urls\resolvers.py", line 698, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'newsarticle_detail' with arguments '('',)' not found. 1 pattern(s) tried: ['article/(?P<id>[0-9]+)/\\Z']
 "GET / HTTP/1.1" 500 145
