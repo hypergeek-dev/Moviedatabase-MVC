@@ -1,8 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
+from django.utils import timezone
 
 STATUS = ((0, "Draft"), (1, "Published"))
+
 
 class NewsArticle(models.Model):
     article_id = models.CharField(max_length=255, primary_key=True)
@@ -17,10 +19,11 @@ class NewsArticle(models.Model):
     status = models.IntegerField(choices=STATUS, default=0)
     source_id = models.CharField(max_length=255)
     source_priority = models.IntegerField()
-    country = models.CharField(max_length=2)
-    category = models.CharField(max_length=50)
-    language = models.CharField(max_length=2)
+    country = models.CharField(max_length=255)
+    category = models.CharField(max_length=255)
+    language = models.CharField(max_length=255)
     pubDate = models.DateTimeField(null=True, blank=True)
+    image_url = models.URLField(null=True, blank=True)
 
     class Meta:
         ordering = ["-created_on"]

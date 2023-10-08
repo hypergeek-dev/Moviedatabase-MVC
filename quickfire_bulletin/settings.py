@@ -104,7 +104,6 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 
 STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
 
-DATABASE_ROUTERS = ['quickfire_bulletin.db_routers.DatabaseErrorHandler']
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
