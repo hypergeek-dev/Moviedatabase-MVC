@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 import os
 import requests
@@ -54,6 +54,11 @@ def fetch_news():
         logging.error(f"API call failed with status code {response.status_code}: {response.text}")
 
 # Function to render news articles
-def news_list(request):
+def news_article_list(request): 
     articles = NewsArticle.objects.filter(status=1)
     return render(request, 'index.html', {'NewsArticle_list': articles})
+
+# Function to render individual news article details
+def newsarticle_detail(request, id):
+    article = get_object_or_404(NewsArticle, id=id)
+    return render(request, 'newsarticle_detail.html', {'article': article})

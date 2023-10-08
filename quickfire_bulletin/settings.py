@@ -40,7 +40,7 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware', 
 ]
 
-ROOT_URLCONF = 'quickfire_bulletin.urls'
+ROOT_URLCONF = 'qfb_main.urls'
 
 TEMPLATES = [
     {
@@ -58,7 +58,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'quickfire_bulletin.wsgi.application'
+WSGI_APPLICATION = 'qfb_main.wsgi.application'
 
 DATABASES = {
      'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
