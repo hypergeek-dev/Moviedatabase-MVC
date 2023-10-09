@@ -14,8 +14,7 @@
                                 <p class="card-text">{{ NewsArticle.content|linebreaks }}</p>
                                 <hr />
                                 <p class="card-text text-muted h6">{{ NewsArticle.created_on}} <i class="far fa-heart"></i> {{ NewsArticle.number_of_likes }}</p>
-                                
-                                <!-- Button to Open Comment Form (moved inside the card-body) -->
+                       
                                 <div class="row">
                                     <div class="col-12">
                                         {% if user.is_authenticated %}
@@ -32,7 +31,6 @@
                                         </div>
                                     {% endfor %}
                                 </div>
-                                <!-- Comment Modal (moved inside the card-body) -->
                                 <div id="comment-modal-{{ NewsArticle.id }}" class="modal" tabindex="-1" role="dialog">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
@@ -44,7 +42,6 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <!-- Comment Form (use NewsArticle.id in the form action) -->
                                                 <form id="comment-form-{{ NewsArticle.id }}" method="POST" action="{% url 'add_comment' NewsArticle.id %}">
                                                     {% csrf_token %}
                                                     <div class="form-group">
@@ -97,7 +94,7 @@
                 });
             });
 
-            // Close the modal when the user clicks outside of it
+       
             window.addEventListener("click", function (event) {
                 if (event.target.classList.contains("modal")) {
                     event.target.style.display = "none";
