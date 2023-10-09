@@ -38,17 +38,21 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <!-- Comment Form -->
-                    <form id="comment-form" method="post" action="">
-                        {% csrf_token %}
-                        <!-- Add your form fields here -->
-                        <textarea name="comment_content" placeholder="Your comment"></textarea>
-                        <button type="submit" class="btn btn-primary">OK</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+  <!-- Comment Form -->
+<form id="comment-form" method="post" action="">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="comment_content">Comment:</label>
+        <textarea id="comment_content" name="comment_content" class="form-control" placeholder="Your comment" required></textarea>
     </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<!-- Confirmation Message -->
+<div id="comment-form-message" class="alert alert-success" style="display: none;">
+    Comment added successfully!
+</div>
+
     <!-- Pagination -->
     {% if is_paginated %}
     <nav aria-label="Page navigation">

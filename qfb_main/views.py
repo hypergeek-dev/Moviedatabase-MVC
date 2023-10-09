@@ -17,7 +17,6 @@ from .comments import CommentForm
 import traceback
 import spacy
 
-
 # Load spaCy model
 nlp = spacy.load("en_core_web_sm")
 
@@ -57,7 +56,7 @@ def fetch_news():
                             'source_priority': article['source_priority'],
                             'category': ','.join(article['category']),
                             'language': article['language'],
-                            'pubDate': pub_date if pub_date_str else None,
+                            'pub_date': pub_date if pub_date_str else None,
                             'image_url': article.get('image_url', ''),
                             'status': 1
                         }
@@ -81,15 +80,12 @@ def news_article_list(request):
     from django.db.models import Q
 
     articles = NewsArticle.objects.filter(Q(status=1))
-    return render(request, 'index.html', {'NewsArticle_list': articles})
+    return render(request, 'index.html', {'news_article_list': articles})
 
 # Function to render individual news article details
-def newsarticle_detail(request, id):
+def news_article_detail(request, id):
     article = get_object_or_404(NewsArticle, id=id)
-    return render(request, 'newsarticle_detail.html', {'article': article})
-def news_article_list(request):
-    articles = NewsArticle.objects.prefetch_related('comments').filter(status=1) 
-    return render(request, 'index.html', {'NewsArticle_list': articles})
+    return render(request, 'news_article_detail.html', {'article': article})
 
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.shortcuts import render, get_object_or_404, redirect
@@ -102,7 +98,7 @@ def add_comment_to_article(request, article_id):
         form = CommentForm(request.POST)
         if form.is_valid():
             new_comment = form.save(commit=False)
-            new_comment.NewsArticle = article  # Make sure the attribute name is correct
+            new_comment.news_article = article  # Make sure the attribute name is correct
             new_comment.save()
 
             if request.is_ajax():
@@ -121,7 +117,6 @@ def add_comment_to_article(request, article_id):
         'article': article,
         'form': form,
     })
-
 
 # Signup view
 def account_signup(request):

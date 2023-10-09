@@ -24,9 +24,9 @@
     
         openCommentFormButtons.forEach(function(button) {
             button.addEventListener("click", function () {
-                const articleId = button.getAttribute("data-article-id");
+                const article_id = button.getAttribute("data-article-id");
                 const form = document.getElementById("comment-form");
-                form.action = `/add_comment_to_article/${articleId}/`;  // Update this URL based on your URL pattern
+                form.action = `/add_comment_to_article/{{ article_id }}/`;
                 $('#comment-modal').modal('show');
             });
         });
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function() {
         })
         .then(response => response.json())
         .then(data => {
-            // Handle response here. For example, close the modal and update the comment section.
+
             $('#comment-modal').modal('hide');
         })
         .catch((error) => {
