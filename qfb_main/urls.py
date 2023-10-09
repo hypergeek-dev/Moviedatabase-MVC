@@ -9,6 +9,7 @@ urlpatterns = [
     path('summernote/', include('django_summernote.urls')),
     path("", views.news_article_list, name="home"),
     path("article/<int:id>/", views.newsarticle_detail, name="newsarticle_detail"),
+     path("article/<int:id>/add_comment/", views.add_comment_to_article, name="add_comment"),
     
   path("account/login/", auth_views.LoginView.as_view(template_name="account/login.html"), name="account_login"),
 path("account/logout/", auth_views.LogoutView.as_view(template_name="account/logout.html"), name="account_logout"),

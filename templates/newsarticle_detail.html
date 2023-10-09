@@ -10,7 +10,70 @@
             {{ article.content|linebreaks }}
         </div>
     </div>
+
+    <!-- Button to Open Comment Form -->
+    <div class="row">
+        <div class="col-12">
+            <button id="open-comment-form" class="btn btn-primary">Add a Comment</button>
+        </div>
+    </div>
+
+    <!-- Comment Modal -->
+    <div id="comment-modal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add a Comment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Comment Form -->
+                    <form id="comment-form" method="POST" action="{% url 'add_comment' article.id %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="name">Name:</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="body">Comment:</label>
+                            <textarea class="form-control" id="body" name="body" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-{% endblock %}
+
 <!-- Debug line -->
 {{ NewsArticle.id }}
+
+<!-- JavaScript to Open Comment Form -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const openCommentFormButton = document.getElementById("open-comment-form");
+        const modal = document.getElementById("comment-modal");
+
+        openCommentFormButton.addEventListener("click", function () {
+            modal.style.display = "block";
+        });
+
+        // Close the modal when the user clicks outside of it
+        window.addEventListener("click", function (event) {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        });
+    });
+</script>
+{% endblock %}

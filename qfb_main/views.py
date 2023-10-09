@@ -11,6 +11,7 @@ from django.utils import timezone
 from django.utils.text import slugify
 import uuid
 from qfb_main.models import NewsArticle
+from .comments import Commentsform
 import traceback
 import spacy
 
