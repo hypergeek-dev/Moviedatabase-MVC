@@ -92,7 +92,7 @@ def add_comment_to_article(request, article_id):
         form = CommentForm(request.POST)
         if form.is_valid():
             new_comment = form.save(commit=False)
-            new_comment.article = article
+            new_comment.NewsArticle = article
             new_comment.save()
             return redirect('article_detail', article_id=article.id)
     else:

@@ -23,7 +23,15 @@
                                         {% endif %}
                                     </div>
                                 </div>
-
+                                <div class="comments-section">
+                                    <h3>Comments</h3>
+                                    {% for comment in NewsArticle.comments.all %}
+                                        <div class="comment">
+                                            <h5>{{ comment.name }}</h5>
+                                            <p>{{ comment.comment_content }}</p>
+                                        </div>
+                                    {% endfor %}
+                                </div>
                                 <!-- Comment Modal (moved inside the card-body) -->
                                 <div id="comment-modal-{{ NewsArticle.id }}" class="modal" tabindex="-1" role="dialog">
                                     <div class="modal-dialog" role="document">
