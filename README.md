@@ -124,7 +124,8 @@ The ability for users to comment on articles and like each other's comments was 
 
 ### Text Formatting
 
-The news articles fetched from the API initially appeared as a single text string without line breaks. A text processing step was added to divide the content into paragraphs for better readability.
+The news articles fetched from the API initially appeared as a single text string without line breaks. A text processing step was added to divide the content into paragraphs for better readability. 
+I used Natural Language Processing in this step. 
 
 ### Deployment
 
