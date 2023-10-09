@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html class="h-100" lang="en">
 <head>
-    <title>Quickfire bulletin</title>
+    <title>Quickfire Bulletin</title>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
@@ -16,7 +16,6 @@
         integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
     </script>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    
 
 </head>
 
@@ -26,7 +25,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-light bg-white">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'home' %}"><span class="brand"></span></a> <!-- Fixed the span tag -->
+            <a class="navbar-brand" href="{% url 'home' %}"><span class="brand"></span></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
                 aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -38,7 +37,7 @@
                     </li>
                     {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account_logout' %}">Log out</a> 
+                        <a class="nav-link" href="{% url 'account_logout' %}">Log out</a>
                     </li>
                     {% else %}
                     <li class="nav-item">
@@ -49,7 +48,6 @@
                     </li>
                     {% endif %}
                 </ul>
-
             </div>
         </div>
     </nav>
@@ -64,7 +62,7 @@
 
     <!-- Footer -->
     <footer class="footer mt-auto py-3 dark-bg">
-
+        <!-- Footer content here -->
     </footer>
 </body>
 
