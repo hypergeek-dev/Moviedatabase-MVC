@@ -32,7 +32,7 @@ class Comment(models.Model):
     NewsArticle = models.ForeignKey(NewsArticle, on_delete=models.CASCADE, related_name="comments")
     name = models.CharField(max_length=80)
     email = models.EmailField()
-    body = models.TextField()
+    comment__content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     approved = models.BooleanField(default=False)
 
@@ -40,4 +40,4 @@ class Comment(models.Model):
         ordering = ["created_on"]
 
     def __str__(self):
-        return f"Comment {self.body} by {self.name}"
+        return f"Comment {self.comment_content} by {self.name}"
