@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.http import JsonResponse
 import os
 import requests
 import json
@@ -84,17 +85,27 @@ def news_article_list(request):
 def newsarticle_detail(request, id):
     article = get_object_or_404(NewsArticle, id=id)
     return render(request, 'newsarticle_detail.html', {'article': article})
+def news_article_list(request):
+    articles = NewsArticle.objects.prefetch_related('comments').filter(status=1) 
+    return render(request, 'index.html', {'NewsArticle_list': articles})
 
 def add_comment_to_article(request, article_id):
     article = get_object_or_404(NewsArticle, id=article_id)
-    
+    response_data = {}
+
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
             new_comment = form.save(commit=False)
             new_comment.NewsArticle = article
             new_comment.save()
-            return redirect('article_detail', article_id=article.id)
+            
+            # If the request is AJAX, return a JSON response
+            if request.is_ajax():
+                response_data['result'] = 'Comment added successfully'
+                return JsonResponse(response_data)
+            else:
+                return redirect('article_detail', article_id=article.id)
     else:
         form = CommentForm()
 

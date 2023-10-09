@@ -29,7 +29,7 @@ class NewsArticle(models.Model):
         return self.title
 
 class Comment(models.Model):
-    NewsArticle = models.ForeignKey(NewsArticle, on_delete=models.CASCADE, related_name="comments")
+    NewsArticle = models.ForeignKey(NewsArticle, related_name='comments', on_delete=models.CASCADE)
     name = models.CharField(max_length=80)
     email = models.EmailField()
     comment_content = models.TextField()

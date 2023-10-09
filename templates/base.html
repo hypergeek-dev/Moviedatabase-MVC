@@ -10,10 +10,56 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
+</script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
+    </script>
+    <script defer>document.addEventListener("DOMContentLoaded", function () {
+        const openCommentFormButtons = document.querySelectorAll(".open-comment-form");
+    
+        openCommentFormButtons.forEach(function(button) {
+            button.addEventListener("click", function () {
+                const articleId = button.getAttribute("data-article-id");
+                const form = document.getElementById("comment-form");
+                form.action = `/add_comment_to_article/${articleId}/`;  // Update this URL based on your URL pattern
+                $('#comment-modal').modal('show');
+            });
+        });
+    
+// Handle form submission via AJAX
+document.addEventListener("DOMContentLoaded", function() {
+    const form = document.getElementById("comment-form");
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();
+        const formData = new FormData(form);
+        const actionURL = form.action;
+
+        fetch(actionURL, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            credentials: 'same-origin'
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Handle response here. For example, close the modal and update the comment section.
+            $('#comment-modal').modal('hide');
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    });
+});
+
+    
     </script>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
