@@ -4,7 +4,6 @@ from django.utils import timezone
 
 STATUS = ((0, "Draft"), (1, "Published"))
 
-
 class NewsArticle(models.Model):
     title = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True)
@@ -19,7 +18,7 @@ class NewsArticle(models.Model):
     country = models.CharField(max_length=255)
     category = models.CharField(max_length=255)
     language = models.CharField(max_length=255)
-    pubDate = models.DateTimeField(null=True, blank=True)
+    pub_date = models.DateTimeField(null=True, blank=True)  
     image_url = models.URLField(null=True, blank=True)
 
     class Meta:
@@ -29,7 +28,7 @@ class NewsArticle(models.Model):
         return self.title
 
 class Comment(models.Model):
-    NewsArticle = models.ForeignKey(NewsArticle, related_name='comments', on_delete=models.CASCADE)
+    news_article = models.ForeignKey(NewsArticle, related_name='comments', on_delete=models.CASCADE)  # Changed from NewsArticle to news_article
     name = models.CharField(max_length=80)
     email = models.EmailField()
     comment_content = models.TextField()

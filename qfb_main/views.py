@@ -78,7 +78,9 @@ def fetch_news():
 
 # Function to render news articles
 def news_article_list(request):
-    articles = NewsArticle.objects.filter(status=1)
+    from django.db.models import Q
+
+    articles = NewsArticle.objects.filter(Q(status=1))
     return render(request, 'index.html', {'NewsArticle_list': articles})
 
 # Function to render individual news article details
@@ -89,6 +91,9 @@ def news_article_list(request):
     articles = NewsArticle.objects.prefetch_related('comments').filter(status=1) 
     return render(request, 'index.html', {'NewsArticle_list': articles})
 
+from django.http import JsonResponse, HttpResponseBadRequest
+from django.shortcuts import render, get_object_or_404, redirect
+
 def add_comment_to_article(request, article_id):
     article = get_object_or_404(NewsArticle, id=article_id)
     response_data = {}
@@ -97,15 +102,18 @@ def add_comment_to_article(request, article_id):
         form = CommentForm(request.POST)
         if form.is_valid():
             new_comment = form.save(commit=False)
-            new_comment.NewsArticle = article
+            new_comment.NewsArticle = article  # Make sure the attribute name is correct
             new_comment.save()
-            
-            # If the request is AJAX, return a JSON response
+
             if request.is_ajax():
                 response_data['result'] = 'Comment added successfully'
+                response_data['comment_id'] = new_comment.id  # Optionally include the comment ID
                 return JsonResponse(response_data)
             else:
                 return redirect('article_detail', article_id=article.id)
+        else:
+            if request.is_ajax():
+                return HttpResponseBadRequest('Invalid form')
     else:
         form = CommentForm()
 
@@ -113,6 +121,7 @@ def add_comment_to_article(request, article_id):
         'article': article,
         'form': form,
     })
+
 
 # Signup view
 def account_signup(request):
