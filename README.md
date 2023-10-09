@@ -1,5 +1,26 @@
 # Quickfire Bulletin
 
+## Table of Contents
+
+- [Overview](#overview)
+- [Features](#features)
+- [Technical Stack](#technical-stack)
+- [Installation](#installation)
+- [Development](#development)
+  - [Initial Setup](#initial-setup)
+  - [API Integration](#api-integration)
+  - [Debugging and Error Handling](#debugging-and-error-handling)
+  - [User Interface](#user-interface)
+  - [Admin Dashboard](#admin-dashboard)
+  - [Commenting and Likes](#commenting-and-likes)
+  - [Text Formatting](#text-formatting)
+  - [Deployment](#deployment)
+  - [Troubleshooting](#troubleshooting)
+- [Usage](#usage)
+- [Troubleshooting](#troubleshooting-1)
+- [Contributing](#contributing)
+- [License](#license)
+
 ## Overview
 
 Quickfire Bulletin is a Django-based web application that serves as a news bulletin platform. It allows users to read news articles fetched from an external API, comment on them, and like each other's comments. The application is designed with a focus on modularity and extensibility, allowing for easy integration of additional features.
