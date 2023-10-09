@@ -58,7 +58,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'qfb_main.wsgi.application'
+WSGI_APPLICATION = 'quickfire_bulletin.wsgi.application'
 
 DATABASES = {
      'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))

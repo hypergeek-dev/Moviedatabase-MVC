@@ -52,9 +52,8 @@ def fetch_news():
 
                     # Save to database
                     news_article, created = NewsArticle.objects.update_or_create(
-                        article_id=article['article_id'],
+                        title=article['title'],
                         defaults={
-                            'title': article['title'],
                             'slug': slug,
                             'content': formatted_content,  # Use formatted_content here
                             'author_id': 1,
@@ -69,13 +68,13 @@ def fetch_news():
                     )
                     logging.debug(f"Saved article with ID: {article['article_id']}")
                 except Exception as e:
-                    tb_str = traceback.format_exception(etype=type(e), value=e, tb=e.__traceback__)
+                    tb_str = traceback.format_exception(type(e), e, e.__traceback__)
                     tb_str = "".join(tb_str)
                     logging.error(f"Failed to save article: {e}\n{tb_str}")  
         except KeyError:
             logging.error(f"API response missing 'articles' key: {response.text}")
         except Exception as e:
-            tb_str = traceback.format_exception(etype=type(e), value=e, tb=e.__traceback__)
+            tb_str = traceback.format_exception(type(e), e, e.__traceback__)
             tb_str = "".join(tb_str)
             logging.error(f"An error occurred while processing the API response: {e}\n{tb_str}")  
     else:
