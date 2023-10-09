@@ -9,7 +9,11 @@ from django.utils import timezone
 from django.utils.text import slugify
 import uuid
 from qfb_main.models import NewsArticle
-import traceback  
+import traceback
+import spacy  # Import spaCy
+
+# Load spaCy model
+nlp = spacy.load("en_core_web_sm")  # Load spaCy model
 
 # Function to fetch news
 def fetch_news():
@@ -28,12 +32,31 @@ def fetch_news():
                         pub_date = datetime.strptime(pub_date_str, '%Y-%m-%d %H:%M:%S')  
                         pub_date = timezone.make_aware(pub_date)
                     slug = slugify(article['title']) + '-' + str(uuid.uuid4())[:8]
+
+                    # Tokenize content into sentences
+                    doc = nlp(article.get('content', ''))
+                    sentences = [sent.text for sent in doc.sents]
+
+                    # Group sentences into paragraphs
+                    def group_into_paragraphs(sentences, n):
+                        paragraphs = []
+                        for i in range(0, len(sentences), n):
+                            paragraph = " ".join(sentences[i:i+n])
+                            paragraphs.append(paragraph)
+                        return paragraphs
+
+                    paragraphs = group_into_paragraphs(sentences, 5)
+
+                    # Join paragraphs into a single string
+                    formatted_content = "\n\n".join(paragraphs)
+
+                    # Save to database
                     news_article, created = NewsArticle.objects.update_or_create(
                         article_id=article['article_id'],
                         defaults={
                             'title': article['title'],
                             'slug': slug,
-                            'content': article.get('content', ''),
+                            'content': formatted_content,  # Use formatted_content here
                             'author_id': 1,
                             'source_id': article['source_id'],
                             'source_priority': article['source_priority'],
