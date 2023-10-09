@@ -83,6 +83,24 @@ def newsarticle_detail(request, id):
     article = get_object_or_404(NewsArticle, id=id)
     return render(request, 'newsarticle_detail.html', {'article': article})
 
+def add_comment_to_article(request, article_id):
+    article = get_object_or_404(NewsArticle, id=article_id)
+    
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            new_comment = form.save(commit=False)
+            new_comment.article = article
+            new_comment.save()
+            return redirect('article_detail', article_id=article.id)
+    else:
+        form = CommentForm()
+
+    return render(request, 'comments.html', {
+        'article': article,
+        'form': form,
+    })
+
 # Signup view
 def account_signup(request):
     if request.method == 'POST':
