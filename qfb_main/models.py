@@ -32,7 +32,7 @@ class Comment(models.Model):
     NewsArticle = models.ForeignKey(NewsArticle, on_delete=models.CASCADE, related_name="comments")
     name = models.CharField(max_length=80)
     email = models.EmailField()
-    comment__content = models.TextField()
+    comment_content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     approved = models.BooleanField(default=False)
 
