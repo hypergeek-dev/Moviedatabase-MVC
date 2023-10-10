@@ -55,6 +55,10 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
                     </li>
+                    <!-- Feedback link moved out of the if-else block -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'feedback' %}">Feedback</a>
+                    </li>
                     {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'account_logout' %}">Log out</a>
@@ -66,14 +70,12 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'account_login' %}">Login</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account_login' %}">Feedback</a>
-                    </li>
                     {% endif %}
                 </ul>
             </div>
         </div>
     </nav>
+    
     
     <!-- Page Title -->
     <div class="text-center">
