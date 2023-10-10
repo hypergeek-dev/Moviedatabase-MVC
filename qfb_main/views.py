@@ -103,6 +103,8 @@ def news_article_detail(request, id):
 logger = logging.getLogger(__name__)
 
 def add_comment_to_article(request, article_id):
+    print("Inside add_comment_to_article view, Article ID:", article_id)
+
     # Fetch the article object based on the article_id
     article = get_object_or_404(NewsArticle, id=article_id)
     
