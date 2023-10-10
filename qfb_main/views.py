@@ -1,5 +1,6 @@
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
@@ -7,18 +8,21 @@ from django.http import JsonResponse
 import os
 import requests
 import json
-import logging
+import logging  # Import the logging module
+import traceback
 from datetime import datetime
 from django.utils import timezone
 from django.utils.text import slugify
 import uuid
 from qfb_main.models import NewsArticle
-from .comments import CommentForm
-import traceback
+from .forms import CommentForm
 import spacy
 
 # Load spaCy model
 nlp = spacy.load("en_core_web_sm")
+
+# Define a logger
+logger = logging.getLogger(__name__)
 
 # Function to fetch news
 def fetch_news():
@@ -61,19 +65,22 @@ def fetch_news():
                             'status': 1
                         }
                     )
-                    logging.debug(f"Saved article with ID: {article['article_id']}")
+                    # Log a message when an article is saved
+                    logger.debug(f"Saved article with ID: {news_article.id}")
                 except Exception as e:
                     tb_str = traceback.format_exception(type(e), e, e.__traceback__)
                     tb_str = "".join(tb_str)
-                    logging.error(f"Failed to save article: {e}\n{tb_str}")
+                    # Log an error message when an error occurs
+                    logger.error(f"Failed to save article: {e}\n{tb_str}")
         except KeyError:
-            logging.error(f"API response missing 'articles' key: {response.text}")
+            logger.error(f"API response missing 'articles' key: {response.text}")
         except Exception as e:
             tb_str = traceback.format_exception(type(e), e, e.__traceback__)
             tb_str = "".join(tb_str)
-            logging.error(f"An error occurred while processing the API response: {e}\n{tb_str}")
+            # Log an error message when an error occurs
+            logger.error(f"An error occurred while processing the API response: {e}\n{tb_str}")
     else:
-        logging.error(f"API call failed with status code {response.status_code}: {response.text}")
+        logger.error(f"API call failed with status code {response.status_code}: {response.text}")
 
 # Function to render news articles
 def news_article_list(request):
@@ -87,9 +94,7 @@ def news_article_detail(request, id):
     article = get_object_or_404(NewsArticle, id=id)
     return render(request, 'news_article_detail.html', {'article': article})
 
-from django.http import JsonResponse, HttpResponseBadRequest
-from django.shortcuts import render, get_object_or_404, redirect
-
+# Function to add a comment to an article
 def add_comment_to_article(request, article_id):
     article = get_object_or_404(NewsArticle, id=article_id)
     response_data = {}
@@ -98,18 +103,22 @@ def add_comment_to_article(request, article_id):
         form = CommentForm(request.POST)
         if form.is_valid():
             new_comment = form.save(commit=False)
-            new_comment.news_article = article  # Make sure the attribute name is correct
+            new_comment.news_article = article  
             new_comment.save()
+
+            # Log a message when a new comment is saved
+            logger.info(f"New comment saved: {new_comment}")
 
             if request.is_ajax():
                 response_data['result'] = 'Comment added successfully'
-                response_data['comment_id'] = new_comment.id  # Optionally include the comment ID
+                response_data['comment_id'] = new_comment.id 
                 return JsonResponse(response_data)
             else:
                 return redirect('article_detail', article_id=article.id)
         else:
             if request.is_ajax():
                 return HttpResponseBadRequest('Invalid form')
+
     else:
         form = CommentForm()
 

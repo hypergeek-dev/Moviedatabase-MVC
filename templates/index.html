@@ -39,7 +39,7 @@
                 </div>
                 <div class="modal-body">
   <!-- Comment Form -->
-<form id="comment-form" method="post" action="">
+  <form id="comment-form" action="" method="POST">
     {% csrf_token %}
     <div class="form-group">
         <label for="comment_content">Comment:</label>
@@ -47,6 +47,9 @@
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+
+
+
 
 <!-- Confirmation Message -->
 <div id="comment-form-message" class="alert alert-success" style="display: none;">

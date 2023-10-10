@@ -22,43 +22,47 @@
     <script defer>
         document.addEventListener("DOMContentLoaded", function () {
             const openCommentFormButtons = document.querySelectorAll(".open-comment-form");
-        
-            openCommentFormButtons.forEach(function(button) {
+    
+            openCommentFormButtons.forEach(function (button) {
                 button.addEventListener("click", function () {
                     const articleId = button.getAttribute("data-article-id");
-                    console.log("articleId:", articleId); 
+                    const userId = button.getAttribute("data-user-id");
                     const form = document.getElementById("comment-form");
-                    form.action = `/add_comment_to_article/${articleId}/`; 
+                    form.dataset.articleId = articleId; // Set the articleId in the dataset
+                    form.dataset.userId = userId; // Set the userId in the dataset
                     $('#comment-modal').modal('show');
                 });
-                              
             });
-        
+    
             // Handle form submission via AJAX
-            document.addEventListener("DOMContentLoaded", function() {
-                const form = document.getElementById("comment-form");
-                form.addEventListener("submit", function(event) {
-                    event.preventDefault();
-                    const formData = new FormData(form);
-                    const actionURL = form.action;
+            const form = document.getElementById("comment-form");
+            form.addEventListener("submit", function (event) {
+                event.preventDefault();
+                const formData = new FormData(form);
+                const actionURL = form.action;
+                const userId = form.dataset.userId;
+                const articleId = form.dataset.articleId;
     
-                    fetch(actionURL, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest',
-                            'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value
-                        },
-                        credentials: 'same-origin'
-                    })
-                    .then(response => response.json())
-                    .then(data => {
+                // Append the user ID and article ID to the form data
+                formData.append("user_id", userId);
+                formData.append("article_id", articleId);
     
+                fetch(actionURL, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value
+                    },
+                    credentials: 'same-origin'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
                         $('#comment-modal').modal('hide');
-                    })
-                    .catch((error) => {
-                        console.error('Error:', error);
-                    });
+                    } else {
+                        console.error('Error:', data.error);
+                    }
                 });
             });
         });
@@ -113,6 +117,54 @@
     <footer class="footer mt-auto py-3 dark-bg">
         <!-- Footer content here -->
     </footer>
+    <script defer>
+        document.addEventListener("DOMContentLoaded", function () {
+            const openCommentFormButtons = document.querySelectorAll(".open-comment-form");
+    
+            openCommentFormButtons.forEach(function (button) {
+                button.addEventListener("click", function () {
+                    const articleId = button.getAttribute("data-article-id");
+                    const userId = button.getAttribute("data-user-id");
+                    const form = document.getElementById("comment-form");
+                    form.dataset.articleId = articleId; // Set the articleId in the dataset
+                    form.dataset.userId = userId; // Set the userId in the dataset
+                    $('#comment-modal').modal('show');
+                });
+            });
+    
+            // Handle form submission via AJAX
+            const form = document.getElementById("comment-form");
+            form.addEventListener("submit", function (event) {
+                event.preventDefault();
+                const formData = new FormData(form);
+                const actionURL = form.action;
+                const userId = form.dataset.userId;
+                const articleId = form.dataset.articleId;
+    
+                // Append the user ID and article ID to the form data
+                formData.append("user_id", userId);
+                formData.append("article_id", articleId);
+    
+                fetch(actionURL, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value
+                    },
+                    credentials: 'same-origin'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        $('#comment-modal').modal('hide');
+                    } else {
+                        console.error('Error:', data.error);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

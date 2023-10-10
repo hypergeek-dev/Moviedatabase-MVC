@@ -15,7 +15,7 @@ DJANGO_ADMIN_USERNAME = os.environ.get('DJANGO_ADMIN_USERNAME')
 
 DEBUG = os.environ.get('DEBUG') == 'True'
 
-ALLOWED_HOSTS = ['quickfire-bulletin-1054d3494a4d.herokuapp.com','localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['quickfire-bulletin-1054d3494a4d.herokuapp.com', 'localhost', '127.0.0.1']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -37,7 +37,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', 
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'qfb_main.urls'
@@ -61,8 +61,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'quickfire_bulletin.wsgi.application'
 
 DATABASES = {
-     'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
- }
+    'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -107,18 +107,22 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'ERROR',  
-            'class': 'logging.FileHandler',
-            'filename': 'debug.log',
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
         },
     },
-    'loggers': {
-        'django': {
-            'handlers': ['file'],
-            'level': 'ERROR',  
-            'propagate': True,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'django.log',
+            'formatter': 'verbose',
         },
+    },
+    'root': {
+        'handlers': ['file'],
+        'level': 'DEBUG',
     },
 }
