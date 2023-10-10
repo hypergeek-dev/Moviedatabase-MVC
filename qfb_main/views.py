@@ -112,7 +112,7 @@ def add_comment_to_article(request, article_id):
                 return HttpResponseBadRequest('Invalid form')
     else:
         form = CommentForm()
-    return render(request, 'forms.html', {'article': article, 'form': form})
+    return JsonResponse({'result': 'This was not a POST request'})
 
 # Feedback
 def feedback_view(request):
