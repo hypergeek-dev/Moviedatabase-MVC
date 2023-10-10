@@ -96,13 +96,20 @@ def news_article_detail(request, id):
 
 # Function to add a comment to an article
 def add_comment_to_article(request, article_id):
+    print("Request Method:", request.method)
+    print("Is AJAX:", request.is_ajax())
     article = get_object_or_404(NewsArticle, id=article_id)
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
             new_comment = form.save(commit=False)
             new_comment.news_article = article
+            # Auto-populate the name and email fields from the logged-in user
+            if request.user.is_authenticated:
+                new_comment.name = request.user.username
+                new_comment.email = request.user.email
             new_comment.save()
+            print("POST Data:", request.POST)
             if request.is_ajax():
                 return JsonResponse({'result': 'Comment added successfully', 'comment_id': new_comment.id})
             else:
@@ -113,6 +120,7 @@ def add_comment_to_article(request, article_id):
     else:
         form = CommentForm()
     return JsonResponse({'result': 'This was not a POST request'})
+
 
 # Feedback
 def feedback_view(request):
