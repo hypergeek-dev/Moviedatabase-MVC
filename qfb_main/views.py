@@ -16,6 +16,7 @@ from django.utils.text import slugify
 import uuid
 from qfb_main.models import NewsArticle
 from .forms import CommentForm
+from django.http import JsonResponse
 import spacy
 
 # Load spaCy model
@@ -65,8 +66,8 @@ def fetch_news():
                             'status': 1
                         }
                     )
-                    # Log a message when an article is saved
-                    logger.debug(f"Saved article with ID: {news_article.id}")
+                    # Display a success message to the user
+                    messages.success(request, f"Article saved with ID: {news_article.id}")
                 except Exception as e:
                     tb_str = traceback.format_exception(type(e), e, e.__traceback__)
                     tb_str = "".join(tb_str)

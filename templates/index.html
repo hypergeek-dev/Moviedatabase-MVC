@@ -33,7 +33,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="comment-modal-label">Add a Comment</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -78,7 +78,7 @@
         var formData = new FormData(form);
         var xhr = new XMLHttpRequest();
         var articleId = form.dataset.articleId; // Get the article ID from dataset
-        form.action = "{% url 'add_comment_to_article' 0 %}".replace("0", articleId); // Update the action URL
+        form.action = "{% url 'add_comment_to_article' 0 %}".replace("0", articleId);
         xhr.open('POST', form.action, true);
         xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}'); 
 

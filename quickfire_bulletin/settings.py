@@ -1,5 +1,6 @@
 import os
 import dj_database_url
+from django.urls import reverse_lazy
 from pathlib import Path
 from dotenv import load_dotenv
 load_dotenv()
@@ -78,6 +79,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+LOGIN_REDIRECT_URL = reverse_lazy('home')
 
 LANGUAGE_CODE = 'en-us'
 
