@@ -3,12 +3,12 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
-from django.http import JsonResponse
+from django.http import HttpRequest
 import os
 import requests
+from django.contrib import messages
 import json
-import logging  # Import the logging module
+import logging
 import traceback
 from datetime import datetime
 from django.utils import timezone
@@ -16,7 +16,7 @@ from django.utils.text import slugify
 import uuid
 from qfb_main.models import NewsArticle
 from .forms import CommentForm
-from django.http import JsonResponse
+from .forms import FeedbackForm
 import spacy
 
 # Load spaCy model
@@ -26,7 +26,7 @@ nlp = spacy.load("en_core_web_sm")
 logger = logging.getLogger(__name__)
 
 # Function to fetch news
-def fetch_news():
+def fetch_news(request=None):
     api_key = os.getenv('NEWS_API_KEY')
     url = f"https://newsdata.io/api/1/news?apikey={api_key}&country=us&language=en"
     response = requests.get(url)
@@ -66,19 +66,17 @@ def fetch_news():
                             'status': 1
                         }
                     )
-                    # Display a success message to the user
-                    messages.success(request, f"Article saved with ID: {news_article.id}")
+                    if request:
+                        messages.success(request, f"Article saved with ID: {news_article.id}")
                 except Exception as e:
                     tb_str = traceback.format_exception(type(e), e, e.__traceback__)
                     tb_str = "".join(tb_str)
-                    # Log an error message when an error occurs
                     logger.error(f"Failed to save article: {e}\n{tb_str}")
         except KeyError:
             logger.error(f"API response missing 'articles' key: {response.text}")
         except Exception as e:
             tb_str = traceback.format_exception(type(e), e, e.__traceback__)
             tb_str = "".join(tb_str)
-            # Log an error message when an error occurs
             logger.error(f"An error occurred while processing the API response: {e}\n{tb_str}")
     else:
         logger.error(f"API call failed with status code {response.status_code}: {response.text}")
@@ -86,6 +84,8 @@ def fetch_news():
 # Function to render news articles
 def news_article_list(request):
     from django.db.models import Q
+
+    fetch_news(request)  # Pass the request object here
 
     articles = NewsArticle.objects.filter(Q(status=1))
     return render(request, 'index.html', {'news_article_list': articles})
@@ -127,6 +127,18 @@ def add_comment_to_article(request, article_id):
         'article': article,
         'form': form,
     })
+
+#  Feedback
+
+def feedback_view(request):
+    if request.method == 'POST':
+        form = FeedbackForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = FeedbackForm()
+    return render(request, 'feedback.html', {'form': form})
 
 # Signup view
 def account_signup(request):
