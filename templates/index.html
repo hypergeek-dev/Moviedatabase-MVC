@@ -27,7 +27,7 @@
             </div>
         </div>
     </div>
-    <!-- Moved the modal out of the loop -->
+    <!-- Modal and Comment Form -->
     <div class="modal fade" id="comment-modal" tabindex="-1" role="dialog" aria-labelledby="comment-modal-label" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -38,24 +38,23 @@
                     </button>
                 </div>
                 <div class="modal-body">
-  <!-- Comment Form -->
-  <form id="comment-form" action="" method="POST">
-    {% csrf_token %}
-    <div class="form-group">
-        <label for="comment_content">Comment:</label>
-        <textarea id="comment_content" name="comment_content" class="form-control" placeholder="Your comment" required></textarea>
+                    <!-- Comment Form -->
+                    <form id="comment-form" action="" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="comment_content">Comment:</label>
+                            <textarea id="comment_content" name="comment_content" class="form-control" placeholder="Your comment" required></textarea>
+                        </div>
+                        <button id="submit-button" type="button" class="btn btn-primary">Submit</button>
+                    </form>
+                    <!-- Confirmation Message -->
+                    <div id="comment-form-message" class="alert alert-success" style="display: none;">
+                        Comment added successfully!
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
-
-
-
-
-<!-- Confirmation Message -->
-<div id="comment-form-message" class="alert alert-success" style="display: none;">
-    Comment added successfully!
-</div>
-
     <!-- Pagination -->
     {% if is_paginated %}
     <nav aria-label="Page navigation">
@@ -70,4 +69,43 @@
     </nav>
     {% endif %}
 </div>
+
+<script>
+    // Function to submit the comment form
+    function submitForm() {
+        console.log('Form submitted.'); 
+        var form = document.getElementById('comment-form');
+        var formData = new FormData(form);
+        var xhr = new XMLHttpRequest();
+        var articleId = form.dataset.articleId; // Get the article ID from dataset
+        form.action = "{% url 'add_comment_to_article' 0 %}".replace("0", articleId); // Update the action URL
+        xhr.open('POST', form.action, true);
+        xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}'); 
+
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                document.getElementById('comment-form-message').style.display = 'none'; 
+                document.getElementById('comment-form').reset();
+            } else {
+                alert('An error occurred. Please try again.');
+            }
+        };
+
+        xhr.send(formData);
+    }
+
+    // Add an event listener to the submit button
+    document.getElementById('submit-button').addEventListener('click', submitForm);
+
+    // Add event listeners for the "Add a Comment" buttons
+    var commentButtons = document.querySelectorAll('.open-comment-form');
+    commentButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            var articleId = button.getAttribute("data-article-id");
+            var form = document.getElementById('comment-form');
+            form.dataset.articleId = articleId; // Set the article ID in dataset
+            $('#comment-modal').modal('show'); // Show the comment modal
+        });
+    });
+</script>
 {% endblock %}

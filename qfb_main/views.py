@@ -122,7 +122,7 @@ def add_comment_to_article(request, article_id):
     else:
         form = CommentForm()
 
-    return render(request, 'comments.html', {
+    return render(request, 'forms.html', {
         'article': article,
         'form': form,
     })
