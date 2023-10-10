@@ -1,6 +1,0 @@
-<!-- comment_form.html -->
-<form method="post" action="{% url 'add_comment_to_article' article.id %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit Comment</button>
-</form>

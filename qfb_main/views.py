@@ -3,13 +3,12 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.http import HttpRequest
+from django.db.models import Q
 import logging
 import os
 import requests
 from django.contrib import messages
 import json
-import logging
 import traceback
 from datetime import datetime
 from django.utils import timezone
@@ -28,9 +27,7 @@ logger = logging.getLogger(__name__)
 
 # Function to fetch news
 def fetch_news(request=None):
-    api_key = os.getenv('NEWS_API_KEY')
-    url = f"https://newsdata.io/api/1/news?apikey={api_key}&country=us&language=en"
-    response = requests.get(url)
+    response = make_api_call()
     if response.status_code == 200:
         try:
             data = json.loads(response.text)
@@ -82,12 +79,13 @@ def fetch_news(request=None):
     else:
         logger.error(f"API call failed with status code {response.status_code}: {response.text}")
 
+def make_api_call():
+    api_key = os.getenv('NEWS_API_KEY')
+    url = f"https://newsdata.io/api/1/news?apikey={api_key}&country=us&language=en"
+    return requests.get(url)
+
 # Function to render news articles
 def news_article_list(request):
-    from django.db.models import Q
-
-    fetch_news(request)  # Pass the request object here
-
     articles = NewsArticle.objects.filter(Q(status=1))
     return render(request, 'index.html', {'news_article_list': articles})
 
@@ -97,67 +95,26 @@ def news_article_detail(request, id):
     return render(request, 'news_article_detail.html', {'article': article})
 
 # Function to add a comment to an article
-
-
-# Initialize logger
-logger = logging.getLogger(__name__)
-
 def add_comment_to_article(request, article_id):
-    print("Inside add_comment_to_article view, Article ID:", article_id)
-
-    # Fetch the article object based on the article_id
     article = get_object_or_404(NewsArticle, id=article_id)
-    
-    # Initialize an empty dictionary to hold response data
-    response_data = {}
-
-    # Check if the request method is POST
     if request.method == 'POST':
-        # Initialize the CommentForm with POST data
         form = CommentForm(request.POST)
-        
-        # Validate the form
         if form.is_valid():
-            # Save the form but don't commit to database yet
             new_comment = form.save(commit=False)
-            
-            # Associate the comment with the article
             new_comment.news_article = article
-            
-            # Save the comment to the database
             new_comment.save()
-
-            # Log the new comment
-            logger.info(f"New comment saved: {new_comment}")
-
-            # Check if the request is an AJAX request
             if request.is_ajax():
-                # Prepare the JSON response
-                response_data['result'] = 'Comment added successfully'
-                response_data['comment_id'] = new_comment.id
-                
-                # Return JSON response
-                return JsonResponse(response_data)
+                return JsonResponse({'result': 'Comment added successfully', 'comment_id': new_comment.id})
             else:
-                # Redirect to the article detail page
                 return redirect('article_detail', article_id=article.id)
         else:
-            # Handle invalid form
             if request.is_ajax():
                 return HttpResponseBadRequest('Invalid form')
     else:
-        # Initialize an empty form for GET request
         form = CommentForm()
+    return render(request, 'forms.html', {'article': article, 'form': form})
 
-    # Render the form template
-    return render(request, 'forms.html', {
-        'article': article,
-        'form': form,
-    })
-
-
-#  Feedback
-
+# Feedback
 def feedback_view(request):
     if request.method == 'POST':
         form = FeedbackForm(request.POST)

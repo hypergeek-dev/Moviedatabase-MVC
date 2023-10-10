@@ -11,10 +11,21 @@
                         <div class="card-body">
                             <h2 class="card-title">{{ news_article.title }}</h2>
                             <p class="card-text">{{ news_article.content|linebreaks }}</p>
+                            <p class="card-text text-muted h6">{{ news_article.created_on }}</p>
                             <hr />
-                            <p class="card-text text-muted h6">{{ news_article.created_on }} <i class="far fa-heart"></i> {{ news_article.number_of_likes }}</p>
+                    
                             <div class="row">
                                 <div class="col-12">
+                                    <!-- Stored comments according to article-id -->
+                                    <div class="comments-section">
+                                        {% for comment in news_article.comments.all %}
+                                            <div class="comment">
+                                                <strong>{{ comment.name }}</strong>
+                                                <p>{{ comment.comment_content }}</p>
+                                                <small class="text-muted">{{ comment.created_on }}</small>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
                                     {% if user.is_authenticated %}
                                     <button id="open-comment-form-{{ news_article.id }}" class="btn btn-primary open-comment-form" data-article-id="{{ news_article.id }}">Add a Comment</button>
                                     {% endif %}
@@ -27,34 +38,36 @@
             </div>
         </div>
     </div>
-    <!-- Modal and Comment Form -->
-    <div class="modal fade" id="comment-modal" tabindex="-1" role="dialog" aria-labelledby="comment-modal-label" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="comment-modal-label">Add a Comment</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!-- Comment Form -->
-                    <form id="comment-form" action="" method="POST">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <label for="comment_content">Comment:</label>
-                            <textarea id="comment_content" name="comment_content" class="form-control" placeholder="Your comment" required></textarea>
-                        </div>
-                        <button id="submit-button" type="button" class="btn btn-primary">Submit</button>
-                    </form>
-                    <!-- Confirmation Message -->
-                    <div id="comment-form-message" class="alert alert-success" style="display: none;">
-                        Comment added successfully!
+<!-- Modal and Comment Form -->
+<div class="modal fade" id="comment-modal" tabindex="-1" role="dialog" aria-labelledby="comment-modal-label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="comment-modal-label">Add a Comment</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Comment Form -->
+                <form id="comment-form" action="" method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="form-group">
+                        <label for="comment_content">Comment:</label>
+                        <textarea id="comment_content" name="comment_content" class="form-control" placeholder="Your comment" required></textarea>
                     </div>
+                    <button id="submit-button" type="button" class="btn btn-primary">Submit</button>
+                </form>
+                <!-- Confirmation Message -->
+                <div id="comment-form-message" class="alert alert-success" style="display: none;">
+                    Comment added successfully!
                 </div>
             </div>
         </div>
     </div>
+</div>
+
     <!-- Pagination -->
     {% if is_paginated %}
     <nav aria-label="Page navigation">
@@ -80,7 +93,6 @@ function submitForm() {
     var articleId = form.dataset.articleId; // Get the article ID from dataset
     console.log("Article ID is set to: ", articleId);
 
-
     // Include the article ID in the form data
     formData.append('article_id', articleId);
 
@@ -105,6 +117,23 @@ function submitForm() {
     xhr.send(formData);
 }
 
+// Function to validate the comment form
+function validateForm() {
+    var commentContent = document.getElementById('comment_content').value;
+    if (commentContent === '') {
+        alert('Comment content cannot be empty.');
+        return false;
+    }
+    return true;
+}
+
+// Function to submit the comment form
+function submitForm() {
+    if (!validateForm()) {
+        return;
+    }
+    console.log('Form submitted.');
+}
 
     // Add an event listener to the submit button
     document.getElementById('submit-button').addEventListener('click', submitForm);
