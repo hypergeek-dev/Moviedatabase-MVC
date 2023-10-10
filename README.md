@@ -9,6 +9,7 @@
 - [Development](#development)
   - [Initial Setup](#initial-setup)
   - [API Integration](#api-integration)
+  - [Natural Language Processing](#natural-language-processing)
   - [Debugging and Error Handling](#debugging-and-error-handling)
   - [User Interface](#user-interface)
   - [Admin Dashboard](#admin-dashboard)
@@ -105,6 +106,9 @@ The project started with the basic setup of a Django project and the creation of
 ### API Integration
 
 One of the first major tasks was to integrate the NewsData.io API to fetch news articles. This involved writing a function (`fetch_news`) that makes an HTTP request to the API, processes the JSON response, and populates the database with news articles.
+
+### Natural Language Processing
+Using Natural Language Processing my Quickfire Bulletin application enhances text readability by intelligently dividing articles into coherent paragraphs. NLP understands the context and semantic structure, ensuring each paragraph focuses on a single idea. This not only improves user experience but also scales easily as the platform grows. Well-structured content can also boost user engagement and potentially improve SEO rankings. Overall, NLP offers a dynamic, automated solution for text formatting, crucial for delivering easily digestible news articles.
 
 ### Debugging and Error Handling
 
