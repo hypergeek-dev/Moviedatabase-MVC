@@ -41,12 +41,14 @@ def fetch_news(request=None):
                     slug = slugify(article['title']) + '-' + str(uuid.uuid4())[:8]
                     doc = nlp(article.get('content', ''))
                     sentences = [sent.text for sent in doc.sents]
+                    
                     def group_into_paragraphs(sentences, n):
                         paragraphs = []
                         for i in range(0, len(sentences), n):
                             paragraph = " ".join(sentences[i:i+n])
                             paragraphs.append(paragraph)
                         return paragraphs
+                    
                     paragraphs = group_into_paragraphs(sentences, 5)
                     formatted_content = "\n\n".join(paragraphs)
                     news_article, created = NewsArticle.objects.update_or_create(
@@ -101,46 +103,35 @@ import logging
 logger = logging.getLogger(__name__)
 
 def add_comment_to_article(request, article_id):
-    logger.info("Received a request to add a comment to article ID: %s", article_id)
-    logger.debug("Request Method: %s", request.method)
-    logger.debug("Is AJAX: %s", request.is_ajax())
-
     try:
         article = get_object_or_404(NewsArticle, id=article_id)
     except Exception as e:
-        logger.error("Failed to fetch article with ID %s: %s", article_id, e)
+        # Handle article not found error
         return JsonResponse({'result': 'Article not found'})
 
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
+            new_comment = form.save(commit=False)
+            new_comment.news_article = article
+            if request.user.is_authenticated:
+                new_comment.name = request.user.username
+                new_comment.email = request.user.email
             try:
-                new_comment = form.save(commit=False)
-                new_comment.news_article = article
-                if request.user.is_authenticated:
-                    new_comment.name = request.user.username
-                    new_comment.email = request.user.email
                 new_comment.save()
-                logger.info("Successfully saved new comment for article ID %s", article_id)
-            except Exception as e:
-                logger.error("Failed to save new comment: %s", e)
-                return JsonResponse({'result': 'Failed to save comment'})
-
-            logger.debug("POST Data: %s", request.POST)
-            if request.is_ajax():
+                # Handle successful comment save
                 return JsonResponse({'result': 'Comment added successfully', 'comment_id': new_comment.id})
-            else:
-                return redirect('article_detail', article_id=article.id)
+            except Exception as e:
+                # Handle error during comment save
+                return JsonResponse({'result': 'Failed to save comment'})
         else:
-            logger.warning("Form is not valid. Errors: %s", form.errors)
-            if request.is_ajax():
-                return HttpResponseBadRequest('Invalid form')
+            # Handle invalid form
+            return HttpResponseBadRequest('Invalid form')
     else:
-        logger.warning("Received a non-POST request to add a comment")
+        # Handle non-POST request (e.g., GET)
         form = CommentForm()
-
+    
     return JsonResponse({'result': 'This was not a POST request'})
-
 
 
 # Feedback

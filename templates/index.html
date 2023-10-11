@@ -38,28 +38,45 @@
             </div>
         </div>
     </div>
-    <!-- Modal and Comment Form -->
     <div class="modal fade" id="comment-modal" tabindex="-1" role="dialog" aria-labelledby="comment-modal-label" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
+                <!-- Modal Header -->
                 <div class="modal-header">
                     <h5 class="modal-title" id="comment-modal-label">Add a Comment</h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+    
+                <!-- Modal Body (Comment Form) -->
                 <div class="modal-body">
-                    <!-- Comment Form -->
                     <form id="comment-form" action="" method="POST">
                         {% csrf_token %}
-                        {{ form.as_p }}
+                        
+                        <!-- Name Field -->
+                        <div class="form-group">
+                            <label for="comment_name">Name:</label>
+                            <input type="text" id="comment_name" name="name" class="form-control" required>
+                        </div>
+                        
+                        <!-- Email Field -->
+                        <div class="form-group">
+                            <label for="comment_email">Email:</label>
+                            <input type="email" id="comment_email" name="email" class="form-control" required>
+                        </div>
+    
+                        <!-- Comment Content Field -->
                         <div class="form-group">
                             <label for="comment_content">Comment:</label>
                             <textarea id="comment_content" name="comment_content" class="form-control" placeholder="Your comment" required></textarea>
                         </div>
+    
+                        <!-- Submit Button -->
                         <button id="submit-button" type="button" class="btn btn-primary">Submit</button>
                     </form>
-                    <!-- Confirmation Message -->
+    
+                    <!-- Confirmation Message (Hidden by Default) -->
                     <div id="comment-form-message" class="alert alert-success" style="display: none;">
                         Comment added successfully!
                     </div>
@@ -67,6 +84,7 @@
             </div>
         </div>
     </div>
+    
     <!-- Pagination -->
     {% if is_paginated %}
     <nav aria-label="Page navigation">
@@ -87,29 +105,33 @@
     function submitForm() {
         // Validate the form first
         var commentContent = document.getElementById('comment_content').value;
-        if (commentContent === '') {
-            alert('Comment content cannot be empty.');
+        var commentName = document.getElementById('comment_name').value; // Get the name
+        var commentEmail = document.getElementById('comment_email').value; // Get the email
+
+        if (commentContent === '' || commentName === '' || commentEmail === '') {
+            alert('All fields are required.');
             return;
         }
 
         console.log('Form submitted.');
         var form = document.getElementById('comment-form');
         var formData = new FormData(form);
-        var xhr = new XMLHttpRequest();
         var articleId = form.dataset.articleId; // Get the article ID from dataset
         console.log("Article ID is set to: ", articleId);
 
-        // Include the article ID in the form data
+        // Include the article ID, name, and email in the form data
         formData.append('article_id', articleId);
+        formData.append('name', commentName);
+        formData.append('email', commentEmail);
 
         form.action = "{% url 'add_comment_to_article' 0 %}".replace("0", articleId);
         console.log("Form action is: ", form.action);
+        var xhr = new XMLHttpRequest();
         xhr.open('POST', form.action, true);
         
         // Set CSRF token in the request header
         xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
         console.log("CSRF Token:", document.getElementsByName('csrfmiddlewaretoken')[0].value);
-
 
         xhr.onload = function() {
             console.log("XHR status: ", xhr.status);
@@ -143,8 +165,8 @@
         currentButton.addEventListener('click', function() {
             var articleId = currentButton.getAttribute("data-article-id");
             var form = document.getElementById('comment-form');
-            form.dataset.articleId = articleId; // Set the article ID in dataset
-            $('#comment-modal').modal('show'); // Show the comment modal
+            form.dataset.articleId = articleId; 
+            $('#comment-modal').modal('show'); 
         });
     });
 </script>
