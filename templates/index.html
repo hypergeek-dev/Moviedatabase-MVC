@@ -108,7 +108,8 @@
         
         // Set CSRF token in the request header
         xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
-        print("CSRF Token:", request.META.get('HTTP_X_CSRFTOKEN'))
+        console.log("CSRF Token:", document.getElementsByName('csrfmiddlewaretoken')[0].value);
+
 
         xhr.onload = function() {
             console.log("XHR status: ", xhr.status);
@@ -122,7 +123,14 @@
                 alert('An error occurred. Please check the console for details.');
             }
         };
+        xhr.onerror = function() {
+            console.error("Request failed");
+        };
 
+        xhr.onabort = function() {
+            console.error("Request was aborted");
+        };
+        
         xhr.send(formData);
     }
 

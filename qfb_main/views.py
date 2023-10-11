@@ -95,31 +95,52 @@ def news_article_detail(request, id):
     return render(request, 'news_article_detail.html', {'article': article})
 
 # Function to add a comment to an article
+import logging
+
+# Initialize logging
+logger = logging.getLogger(__name__)
+
 def add_comment_to_article(request, article_id):
-    print("Request Method:", request.method)
-    print("Is AJAX:", request.is_ajax())
-    article = get_object_or_404(NewsArticle, id=article_id)
+    logger.info("Received a request to add a comment to article ID: %s", article_id)
+    logger.debug("Request Method: %s", request.method)
+    logger.debug("Is AJAX: %s", request.is_ajax())
+
+    try:
+        article = get_object_or_404(NewsArticle, id=article_id)
+    except Exception as e:
+        logger.error("Failed to fetch article with ID %s: %s", article_id, e)
+        return JsonResponse({'result': 'Article not found'})
+
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
-            new_comment = form.save(commit=False)
-            new_comment.news_article = article
-            # Auto-populate the name and email fields from the logged-in user
-            if request.user.is_authenticated:
-                new_comment.name = request.user.username
-                new_comment.email = request.user.email
-            new_comment.save()
-            print("POST Data:", request.POST)
+            try:
+                new_comment = form.save(commit=False)
+                new_comment.news_article = article
+                if request.user.is_authenticated:
+                    new_comment.name = request.user.username
+                    new_comment.email = request.user.email
+                new_comment.save()
+                logger.info("Successfully saved new comment for article ID %s", article_id)
+            except Exception as e:
+                logger.error("Failed to save new comment: %s", e)
+                return JsonResponse({'result': 'Failed to save comment'})
+
+            logger.debug("POST Data: %s", request.POST)
             if request.is_ajax():
                 return JsonResponse({'result': 'Comment added successfully', 'comment_id': new_comment.id})
             else:
                 return redirect('article_detail', article_id=article.id)
         else:
+            logger.warning("Form is not valid. Errors: %s", form.errors)
             if request.is_ajax():
                 return HttpResponseBadRequest('Invalid form')
     else:
+        logger.warning("Received a non-POST request to add a comment")
         form = CommentForm()
+
     return JsonResponse({'result': 'This was not a POST request'})
+
 
 
 # Feedback
