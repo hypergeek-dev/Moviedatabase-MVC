@@ -80,6 +80,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 LOGIN_REDIRECT_URL = reverse_lazy('home')
+LOGOUT_REDIRECT_URL = reverse_lazy('home')
 
 LANGUAGE_CODE = 'en-us'
 
