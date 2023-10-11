@@ -35,6 +35,27 @@ Quickfire Bulletin is a Django-based web application that serves as a news bulle
 - **Likes**: Users can like each other's comments.
 - **Pagination**: The home page displays news articles in a paginated format.
 
+  ## User Stories
+
+### Admin Stories
+
+As an admin, you can:
+- Log in and access the admin panel.
+- Create, edit, and delete posts.
+- Manage user accounts.
+- Organize posts into categories.
+- Monitor user activity.
+
+### User Stories
+
+As a user, you can:
+- Register an account or log in.
+- View the latest posts.
+- Filter posts by category.
+- Comment on posts.
+- Receive notifications for new posts and comments.
+- Search for specific posts.
+
 ## Technical Stack
 
 - **Backend**: Python, Django
