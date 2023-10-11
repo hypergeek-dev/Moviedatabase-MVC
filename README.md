@@ -158,11 +158,32 @@ The application was prepared for deployment with the inclusion of Whitenoise for
 
 ### Troubleshooting
 
-Several issues were encountered during development, such as:
+## Issue 1: Form Validation
 
-- Missing 'articles' key in the API response
-- Admin panel access issues
-- Static file management with Whitenoise
+### Problem:
+When testing the app's comment submission form, I noticed that the form was submitting even when some fields were left empty.
+
+### Solution:
+To ensure data integrity, I implemented client-side form validation using JavaScript. This validation checks whether the "Name," "Email," and "Comment" fields are all filled out before allowing form submission. This way, users are prompted to provide all required information before submitting a comment.
+
+## Issue 2: Missing Fields in Form
+
+### Problem:
+The comment form initially lacked "Name" and "Email" fields.
+
+### Solution:
+I integrated the "Name" and "Email" fields into the comment form to gather additional user information when submitting a comment. These fields were added as text input and email input fields, respectively.
+
+## Issue 3: Form Data Not Including Name and Email
+
+### Problem:
+Even after adding "Name" and "Email" fields to the form, the form data being sent to the server did not include this information.
+
+### Solution:
+To include the "Name" and "Email" in the form data when submitting a comment, I modified the JavaScript code that handles form submission. Specifically, I added code to retrieve the values of these fields and append them to the form data using the `formData.append()` method.
+
+By addressing these issues, I improved the functionality and usability of the app's comment submission feature, ensuring that users provide complete information and that all relevant data is sent to the server for processing.
+
 
 Each of these issues required specific troubleshooting steps, including code debugging, environment variable checks, and server log reviews.
 
