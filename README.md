@@ -192,6 +192,21 @@ Each of these issues required specific troubleshooting steps, including code deb
 
 By overcoming these challenges, the project has reached its current state, offering a robust set of features for a news bulletin platform.
 
+## Wireframes
+
+Here are wireframes illustrating the initial design of Quickfire Bulletin:
+
+![Wireframe 1](https://github.com/hypergeek-dev/Quickfire_bulletin1/blob/main/static/images/Wireframe1.png)
+![Wireframe 2](https://github.com/hypergeek-dev/Quickfire_bulletin1/blob/main/static/images/Wireframe2.png)
+![Wireframe 3](https://github.com/hypergeek-dev/Quickfire_bulletin1/blob/main/static/images/Wireframe3.png)
+
+These wireframes provide a visual representation of the app's layout and design during the planning phase.
+
+## Lighthouse
+![Lighthouse](https://github.com/hypergeek-dev/Quickfire_bulletin1/blob/main/static/images/lighthouse.png)
+
+## 
+
 ## Usage
 
 1. Open your web browser and navigate to `http://127.0.0.1:8000/`.
