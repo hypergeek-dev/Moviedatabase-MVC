@@ -26,6 +26,9 @@
 
 Quickfire Bulletin is a Django-based web application that serves as a news bulletin platform. It allows users to read news articles fetched from an external API, comment on them, and like each other's comments. The application is designed with a focus on modularity and extensibility, allowing for easy integration of additional features.
 
+[The site is live here](https://quickfire-bulletin-1054d3494a4d.herokuapp.com/)
+
+
 ## Features
 
 - **News API Integration**: The application fetches news articles from the NewsData.io API and populates the database with the latest news.
