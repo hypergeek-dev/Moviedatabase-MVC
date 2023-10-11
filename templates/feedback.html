@@ -1,9 +1,29 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
-  </form>
+<div class="container">
+    <div class="row">
+        <!-- First Column: Submit Form (Centered) -->
+        <div class="col-lg-6 offset-lg-3 col-md-12">
+            <form method="post" class="text-center">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+        
+        <!-- Second Column: Mission Statement and Welcome Text -->
+        <div class="col-lg-6 offset-lg-3 col-md-12 mt-4">
+            <div class="text-center">
+                <h2>Let us know</h2>
+                <p>
+                    We strive to provide the latest news and updates in a newspaper-style format. We welcome your feedback to help us improve your experience.
+                </p>
+                <p>
+                    We value your opinions and suggestions. Feel free to provide feedback or thoughts on how to improve our site.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
