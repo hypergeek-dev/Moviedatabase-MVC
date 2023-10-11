@@ -97,7 +97,7 @@ def news_article_detail(request, id):
     return render(request, 'news_article_detail.html', {'article': article})
 
 # Function to add a comment to an article
-import logging
+
 
 # Initialize logging
 logger = logging.getLogger(__name__)
