@@ -114,54 +114,86 @@
 {% endif %}
 
 <script>
-    // Function to submit the comment form
-    function submitForm() {
-        // Validate the form first
-        var commentContent = document.getElementById('comment_content').value;
+    // Function to populate the comment form for editing
+    function populateEditForm(commentId, commentContent) {
+        var form = document.getElementById('comment-form');
 
-        if (commentContent === '') {
-            alert('Comment field is required.');
-            return;
+        // Set the comment ID in the form data
+        form.dataset.commentId = commentId;
+
+        // Prepopulate the comment content in the form
+        document.getElementById('comment_content').value = commentContent;
+
+        // Change modal title to indicate editing
+        document.getElementById('comment-modal-label').innerText = 'Edit Comment';
+
+        // Change submit button text to indicate editing
+        document.getElementById('submit-button').innerText = 'Update';
+
+        // Show the modal
+        $('#comment-modal').modal('show');
+    }
+
+    // Function to handle the edit comment button click
+    function handleEditCommentButtonClick(commentId) {
+        // Fetch comment content from the page
+        var commentContent = document.getElementById('comment-content-' + commentId).innerText;
+
+        // Populate the edit form
+        populateEditForm(commentId, commentContent);
+    }
+
+    // Add an event listener to the submit button for editing
+    document.getElementById('submit-button').addEventListener('click', function () {
+        // Check if the comment ID is set for editing
+        var commentId = document.getElementById('comment-form').dataset.commentId;
+
+        if (commentId) {
+            // If editing, call the function to update the comment
+            updateComment(commentId);
+        } else {
+            // If not editing, call the function to submit the new comment
+            submitForm();
         }
+    });
 
-        console.log('Form submitted.');
+    // Add event listeners for the "Edit Comment" buttons
+    var editButtons = document.querySelectorAll('.open-comment-form[data-action="edit"]');
+    editButtons.forEach(function(currentButton) {
+        currentButton.addEventListener('click', function() {
+            var commentId = currentButton.getAttribute("data-comment-id");
+            handleEditCommentButtonClick(commentId);
+        });
+    });
+
+    // Function to update the existing comment
+    function updateComment(commentId) {
         var form = document.getElementById('comment-form');
         var formData = new FormData(form);
-        var articleId = form.dataset.articleId; // Get the article ID from dataset
-        console.log("Article ID is set to: ", articleId);
 
-        // Include the article ID in the form data
-        formData.append('article_id', articleId);
+        // Include the comment ID in the form data
+        formData.append('comment_id', commentId);
 
-        // Fetch the current user's name and email (if authenticated)
-        var commentName = "{% if user.is_authenticated %}{{ user.username }}{% else %}Anonymous{% endif %}";
-        var commentEmail = "{% if user.is_authenticated %}{{ user.email }}{% else %}anonymous@example.com{% endif %}";
-
-        // Update the hidden name and email fields
-        formData.append('name', commentName);
-        formData.append('email', commentEmail);
-
-        form.action = "{% url 'add_comment_to_article' 0 %}".replace("0", articleId);
-        console.log("Form action is: ", form.action);
+        form.action = "{% url 'update_comment' 0 %}".replace("0", commentId);
         var xhr = new XMLHttpRequest();
         xhr.open('POST', form.action, true);
 
         // Set CSRF token in the request header
         xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
-        console.log("CSRF Token:", document.getElementsByName('csrfmiddlewaretoken')[0].value);
 
         xhr.onload = function() {
-            console.log("XHR status: ", xhr.status);
-            console.log("XHR response: ", xhr.responseText);
             var response = JSON.parse(xhr.responseText);
-            if (xhr.status === 200 && response.result === 'Comment added successfully') {
+            if (xhr.status === 200 && response.result === 'Comment updated successfully') {
+                // Reset the form and hide the modal
                 document.getElementById('comment-form-message').style.display = 'block';
                 document.getElementById('comment-form').reset();
+                $('#comment-modal').modal('hide');
             } else {
                 console.log('Server Response:', response);
                 alert('An error occurred. Please check the console for details.');
             }
         };
+
         xhr.onerror = function() {
             console.error("Request failed");
         };
@@ -172,20 +204,7 @@
 
         xhr.send(formData);
     }
-
-    // Add an event listener to the submit button
-    document.getElementById('submit-button').addEventListener('click', submitForm);
-
-    // Add event listeners for the "Add a Comment" buttons
-    var commentButtons = document.querySelectorAll('.open-comment-form');
-    commentButtons.forEach(function(currentButton) {
-        currentButton.addEventListener('click', function() {
-            var articleId = currentButton.getAttribute("data-article-id");
-            var form = document.getElementById('comment-form');
-            form.dataset.articleId = articleId; 
-            $('#comment-modal').modal('show'); 
-        });
-    });
 </script>
+
 
 {% endblock %}

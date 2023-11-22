@@ -124,6 +124,5 @@ LOGGING = {
             'propagate': True,
         },
     },
-    
 }
 

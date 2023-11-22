@@ -131,7 +131,6 @@ def add_comment_to_article(request, article_id):
         form = CommentForm()
     
     return JsonResponse({'result': 'This was not a POST request'})
-
 # Function to edit a comment
 def edit_comment(request, comment_id):
     comment = get_object_or_404(Comment, id=comment_id)

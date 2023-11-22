@@ -22,13 +22,6 @@
                                             <div class="comment">
                                                 <strong>{{ comment.name }}</strong>
                                                 <p>{{ comment.comment_content }}</p>
-                                                {% if user.is_authenticated %}
-                                                <div class="justify-content-center">
-                                                    <button id="edit-comment-{{ news_article.id }}" class="btn btn-secondary btn-dark open-comment-form" data-action="edit" data-comment-id="{{ comment.id }}">Edit</button>
-                                                    <button id="delete-comment-{{ news_article.id }}" class="btn btn-secondary btn-dark open-comment-form" data-article-id="{{ news_article.id }}">Delete</button>
-                                                {% endif %}
-                                                </div>
-                                                <hr>
                                                 <small class="text-muted">{{ comment.created_on }}</small>
                                             </div>
                                         {% endfor %}
@@ -48,7 +41,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="comment-modal" tabindex="-1" role="dialog" aria-labelledby="comment-modal-label" aria-hidden="true">
+<div class="modal fade" id="comment" tabindex="-1" role="dialog" aria-labelledby="comment-modal-label" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <!-- Modal Header -->
@@ -63,19 +56,7 @@
                 <!-- Your form content here -->
                 <form id="comment-form" method="POST">
                     {% csrf_token %}
-                    
-                    <!-- Name Field -->
-                    <div class="form-group">
-                      
-                        <input type="hidden" id="comment_name" name="name" class="form-control" required>
-                    </div>
-                    
-                    <!-- Email Field -->
-                    <div class="form-group">
-                      
-                        <input type="hidden" id="comment_email" name="email" class="form-control" required>
-                    </div>
-            
+
                     <!-- Comment Content Field -->
                     <div class="form-group">
                         <label for="comment_content">Comment:</label>
@@ -114,42 +95,35 @@
 {% endif %}
 
 <script>
-    // Function to submit the comment form
+    if (typeof URLSearchParams === 'undefined') {
+        URLSearchParams = function (searchString) {
+            var self = this;
+            self.searchString = searchString;
+            self.toString = function () {
+                return self.searchString;
+            };
+        };
+    }
+    
     function submitForm() {
-        // Validate the form first
         var commentContent = document.getElementById('comment_content').value;
-
+    
         if (commentContent === '') {
-            alert('Comment field is required.');
+            alert('Your submitted an empty comment. Please enter a comment and try again.');
             return;
         }
-
         console.log('Form submitted.');
         var form = document.getElementById('comment-form');
         var formData = new FormData(form);
-        var articleId = form.dataset.articleId; // Get the article ID from dataset
+        var articleId = form.dataset.articleId;
         console.log("Article ID is set to: ", articleId);
-
-        // Include the article ID in the form data
         formData.append('article_id', articleId);
-
-        // Fetch the current user's name and email (if authenticated)
-        var commentName = "{% if user.is_authenticated %}{{ user.username }}{% else %}Anonymous{% endif %}";
-        var commentEmail = "{% if user.is_authenticated %}{{ user.email }}{% else %}anonymous@example.com{% endif %}";
-
-        // Update the hidden name and email fields
-        formData.append('name', commentName);
-        formData.append('email', commentEmail);
-
-        form.action = "{% url 'add_comment_to_article' 0 %}".replace("0", articleId);
+        form.action = "/add_comment_to_article/0/".replace("0", articleId);
         console.log("Form action is: ", form.action);
         var xhr = new XMLHttpRequest();
         xhr.open('POST', form.action, true);
-
-        // Set CSRF token in the request header
-        xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+        xhr.setRequestHeader('X-CSRFToken', 'D36XK3Bam4T0Bva7tLdfmMIse7R5P6wKJGEsLXhLRjayEfCsbohqWov5yylbai58');
         console.log("CSRF Token:", document.getElementsByName('csrfmiddlewaretoken')[0].value);
-
         xhr.onload = function() {
             console.log("XHR status: ", xhr.status);
             console.log("XHR response: ", xhr.responseText);
@@ -162,15 +136,16 @@
                 alert('An error occurred. Please check the console for details.');
             }
         };
+    
         xhr.onerror = function() {
             console.error("Request failed");
         };
-
+    
         xhr.onabort = function() {
             console.error("Request was aborted");
         };
-
-        xhr.send(formData);
+        var urlEncodedFormData = new URLSearchParams(formData).toString();
+        xhr.send(urlEncodedFormData);
     }
 
     // Add an event listener to the submit button
@@ -187,5 +162,4 @@
         });
     });
 </script>
-
 {% endblock %}

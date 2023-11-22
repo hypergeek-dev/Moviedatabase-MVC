@@ -23,12 +23,8 @@
                                                 <strong>{{ comment.name }}</strong>
                                                 <p>{{ comment.comment_content }}</p>
                                                 {% if user.is_authenticated %}
-                                                <div class="justify-content-center">
-                                                    <button id="edit-comment-{{ news_article.id }}" class="btn btn-secondary btn-dark open-comment-form" data-action="edit" data-comment-id="{{ comment.id }}">Edit</button>
-                                                    <button id="delete-comment-{{ news_article.id }}" class="btn btn-secondary btn-dark open-comment-form" data-article-id="{{ news_article.id }}">Delete</button>
+                                                <button id="edit-comment-form-{{ news_article.id }}" class="btn btn-secondary btn-dark open-comment-form" data-article-id="{{ news_article.id }}">Edit</button>
                                                 {% endif %}
-                                                </div>
-                                                <hr>
                                                 <small class="text-muted">{{ comment.created_on }}</small>
                                             </div>
                                         {% endfor %}

@@ -21,15 +21,11 @@
                                         {% for comment in news_article.comments.all %}
                                             <div class="comment">
                                                 <strong>{{ comment.name }}</strong>
-                                                <p>{{ comment.comment_content }}</p>
-                                                {% if user.is_authenticated %}
-                                                <div class="justify-content-center">
-                                                    <button id="edit-comment-{{ news_article.id }}" class="btn btn-secondary btn-dark open-comment-form" data-action="edit" data-comment-id="{{ comment.id }}">Edit</button>
-                                                    <button id="delete-comment-{{ news_article.id }}" class="btn btn-secondary btn-dark open-comment-form" data-article-id="{{ news_article.id }}">Delete</button>
-                                                {% endif %}
-                                                </div>
-                                                <hr>
+                                                <p id="comment-content-{{ comment.id }}">{{ comment.comment_content }}</p>
                                                 <small class="text-muted">{{ comment.created_on }}</small>
+                                                {% if user.is_authenticated and user == comment.user %}
+                                                    <button class="btn btn-secondary btn-dark edit-comment" data-comment-id="{{ comment.id }}">Edit</button>
+                                                {% endif %}
                                             </div>
                                         {% endfor %}
                                     </div>
@@ -66,13 +62,11 @@
                     
                     <!-- Name Field -->
                     <div class="form-group">
-                      
                         <input type="hidden" id="comment_name" name="name" class="form-control" required>
                     </div>
                     
                     <!-- Email Field -->
                     <div class="form-group">
-                      
                         <input type="hidden" id="comment_email" name="email" class="form-control" required>
                     </div>
             
@@ -81,6 +75,9 @@
                         <label for="comment_content">Comment:</label>
                         <textarea id="comment_content" name="comment_content" class="form-control" placeholder="Your comment" required></textarea>
                     </div>
+            
+                    <!-- Comment ID (Hidden, used for editing) -->
+                    <input type="hidden" id="comment_id" name="comment_id" value="">
             
                     <!-- Confirmation Message (Hidden by Default) -->
                     <div id="comment-form-message" class="alert alert-success" style="display: none;">
@@ -141,8 +138,16 @@
         formData.append('name', commentName);
         formData.append('email', commentEmail);
 
-        form.action = "{% url 'add_comment_to_article' 0 %}".replace("0", articleId);
-        console.log("Form action is: ", form.action);
+        // Determine whether it's an edit or an add operation based on the presence of a comment ID
+        var commentId = document.getElementById('comment_id').value;
+        if (commentId) {
+            // Update the form action for edit
+            form.action = "{% url 'edit_comment' commentId %}";
+        } else {
+            // Update the form action for add
+            form.action = "{% url 'add_comment_to_article' articleId %}";
+        }
+
         var xhr = new XMLHttpRequest();
         xhr.open('POST', form.action, true);
 
@@ -183,7 +188,26 @@
             var articleId = currentButton.getAttribute("data-article-id");
             var form = document.getElementById('comment-form');
             form.dataset.articleId = articleId; 
+            // Clear any previous data in the form when opening
+            document.getElementById('comment_id').value = "";
+            document.getElementById('comment_content').value = "";
             $('#comment-modal').modal('show'); 
+        });
+    });
+
+    // Add event listeners for the "Edit Comment" buttons
+    var editButtons = document.querySelectorAll('.edit-comment');
+    editButtons.forEach(function(editButton) {
+        editButton.addEventListener('click', function() {
+            var commentId = editButton.getAttribute("data-comment-id");
+            var commentContent = document.getElementById('comment-content-' + commentId).innerText;
+
+            // Populate modal fields with existing comment data
+            document.getElementById('comment_content').value = commentContent;
+            document.getElementById('comment_id').value = commentId;
+
+            // Show the modal
+            $('#comment-modal').modal('show');
         });
     });
 </script>

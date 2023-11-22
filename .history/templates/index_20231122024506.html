@@ -22,13 +22,6 @@
                                             <div class="comment">
                                                 <strong>{{ comment.name }}</strong>
                                                 <p>{{ comment.comment_content }}</p>
-                                                {% if user.is_authenticated %}
-                                                <div class="justify-content-center">
-                                                    <button id="edit-comment-{{ news_article.id }}" class="btn btn-secondary btn-dark open-comment-form" data-action="edit" data-comment-id="{{ comment.id }}">Edit</button>
-                                                    <button id="delete-comment-{{ news_article.id }}" class="btn btn-secondary btn-dark open-comment-form" data-article-id="{{ news_article.id }}">Delete</button>
-                                                {% endif %}
-                                                </div>
-                                                <hr>
                                                 <small class="text-muted">{{ comment.created_on }}</small>
                                             </div>
                                         {% endfor %}
@@ -55,37 +48,25 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="comment-modal-label">Add a Comment</h5>
                 <button type="button" class="close btn btn-secondary btn-dark" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                   <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <!-- Modal Body -->
             <div class="modal-body">
                 <!-- Your form content here -->
                 <form id="comment-form" method="POST">
-                    {% csrf_token %}
-                    
-                    <!-- Name Field -->
-                    <div class="form-group">
-                      
-                        <input type="hidden" id="comment_name" name="name" class="form-control" required>
-                    </div>
-                    
-                    <!-- Email Field -->
-                    <div class="form-group">
-                      
-                        <input type="hidden" id="comment_email" name="email" class="form-control" required>
-                    </div>
+                   {% csrf_token %}
+                   
+                   <!-- Comment Content Field -->
+                   <div class="form-group">
+                       <label for="comment_content">Comment:</label>
+                       <textarea id="comment_content" name="comment_content" class="form-control" placeholder="Your comment" required></textarea>
+                   </div>
             
-                    <!-- Comment Content Field -->
-                    <div class="form-group">
-                        <label for="comment_content">Comment:</label>
-                        <textarea id="comment_content" name="comment_content" class="form-control" placeholder="Your comment" required></textarea>
-                    </div>
-            
-                    <!-- Confirmation Message (Hidden by Default) -->
-                    <div id="comment-form-message" class="alert alert-success" style="display: none;">
-                        Comment added successfully!
-                    </div>
+                   <!-- Confirmation Message (Hidden by Default) -->
+                   <div id="comment-form-message" class="alert alert-success" style="display: none;">
+                       Comment added successfully!
+                   </div>
                 </form>
             </div>
             <!-- Modal Footer -->
@@ -97,7 +78,8 @@
             </div>
         </div>
     </div>
-</div>
+ </div>
+ 
 
 <!-- Pagination -->
 {% if is_paginated %}
@@ -114,42 +96,30 @@
 {% endif %}
 
 <script>
-    // Function to submit the comment form
     function submitForm() {
         // Validate the form first
         var commentContent = document.getElementById('comment_content').value;
-
+     
         if (commentContent === '') {
             alert('Comment field is required.');
             return;
         }
-
+     
         console.log('Form submitted.');
         var form = document.getElementById('comment-form');
         var formData = new FormData(form);
         var articleId = form.dataset.articleId; // Get the article ID from dataset
         console.log("Article ID is set to: ", articleId);
-
-        // Include the article ID in the form data
-        formData.append('article_id', articleId);
-
-        // Fetch the current user's name and email (if authenticated)
-        var commentName = "{% if user.is_authenticated %}{{ user.username }}{% else %}Anonymous{% endif %}";
-        var commentEmail = "{% if user.is_authenticated %}{{ user.email }}{% else %}anonymous@example.com{% endif %}";
-
-        // Update the hidden name and email fields
-        formData.append('name', commentName);
-        formData.append('email', commentEmail);
-
+     
         form.action = "{% url 'add_comment_to_article' 0 %}".replace("0", articleId);
         console.log("Form action is: ", form.action);
         var xhr = new XMLHttpRequest();
         xhr.open('POST', form.action, true);
-
+        
         // Set CSRF token in the request header
         xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
         console.log("CSRF Token:", document.getElementsByName('csrfmiddlewaretoken')[0].value);
-
+     
         xhr.onload = function() {
             console.log("XHR status: ", xhr.status);
             console.log("XHR response: ", xhr.responseText);
@@ -165,13 +135,13 @@
         xhr.onerror = function() {
             console.error("Request failed");
         };
-
+     
         xhr.onabort = function() {
             console.error("Request was aborted");
         };
-
+        
         xhr.send(formData);
-    }
+     }
 
     // Add an event listener to the submit button
     document.getElementById('submit-button').addEventListener('click', submitForm);
@@ -187,5 +157,4 @@
         });
     });
 </script>
-
 {% endblock %}

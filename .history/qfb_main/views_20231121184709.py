@@ -19,7 +19,7 @@ from .forms import CommentForm
 from .forms import FeedbackForm
 import spacy
 
-# Load spacy model
+# Load spaCy model
 nlp = spacy.load("en_core_web_sm")
 
 # Define a logger
@@ -98,6 +98,7 @@ def news_article_detail(request, id):
 
 # Function to add a comment to an article
 
+
 # Initialize logging
 logger = logging.getLogger(__name__)
 
@@ -132,21 +133,6 @@ def add_comment_to_article(request, article_id):
     
     return JsonResponse({'result': 'This was not a POST request'})
 
-# Function to edit a comment
-def edit_comment(request, comment_id):
-    comment = get_object_or_404(Comment, id=comment_id)
-
-    if request.method == 'POST':
-        form = CommentForm(request.POST, instance=comment)
-        if form.is_valid():
-            edited_comment = form.save()
-            return JsonResponse({'result': 'Comment edited successfully'})
-        else:
-            return HttpResponseBadRequest('Invalid form')
-    else:
-        form = CommentForm(instance=comment)
-
-    return render(request, 'edit_comment.html', {'form': form, 'comment': comment})
 
 # Feedback
 def feedback_view(request):

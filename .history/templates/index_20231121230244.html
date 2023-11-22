@@ -22,13 +22,6 @@
                                             <div class="comment">
                                                 <strong>{{ comment.name }}</strong>
                                                 <p>{{ comment.comment_content }}</p>
-                                                {% if user.is_authenticated %}
-                                                <div class="justify-content-center">
-                                                    <button id="edit-comment-{{ news_article.id }}" class="btn btn-secondary btn-dark open-comment-form" data-action="edit" data-comment-id="{{ comment.id }}">Edit</button>
-                                                    <button id="delete-comment-{{ news_article.id }}" class="btn btn-secondary btn-dark open-comment-form" data-article-id="{{ news_article.id }}">Delete</button>
-                                                {% endif %}
-                                                </div>
-                                                <hr>
                                                 <small class="text-muted">{{ comment.created_on }}</small>
                                             </div>
                                         {% endfor %}
@@ -63,18 +56,7 @@
                 <!-- Your form content here -->
                 <form id="comment-form" method="POST">
                     {% csrf_token %}
-                    
-                    <!-- Name Field -->
-                    <div class="form-group">
-                      
-                        <input type="hidden" id="comment_name" name="name" class="form-control" required>
-                    </div>
-                    
-                    <!-- Email Field -->
-                    <div class="form-group">
-                      
-                        <input type="hidden" id="comment_email" name="email" class="form-control" required>
-                    </div>
+
             
                     <!-- Comment Content Field -->
                     <div class="form-group">
@@ -133,14 +115,6 @@
         // Include the article ID in the form data
         formData.append('article_id', articleId);
 
-        // Fetch the current user's name and email (if authenticated)
-        var commentName = "{% if user.is_authenticated %}{{ user.username }}{% else %}Anonymous{% endif %}";
-        var commentEmail = "{% if user.is_authenticated %}{{ user.email }}{% else %}anonymous@example.com{% endif %}";
-
-        // Update the hidden name and email fields
-        formData.append('name', commentName);
-        formData.append('email', commentEmail);
-
         form.action = "{% url 'add_comment_to_article' 0 %}".replace("0", articleId);
         console.log("Form action is: ", form.action);
         var xhr = new XMLHttpRequest();
@@ -182,8 +156,17 @@
         currentButton.addEventListener('click', function() {
             var articleId = currentButton.getAttribute("data-article-id");
             var form = document.getElementById('comment-form');
-            form.dataset.articleId = articleId; 
-            $('#comment-modal').modal('show'); 
+            form.dataset.articleId = articleId;
+
+            // Get user information from the server and update the form
+            fetch("{% url 'get_user_info' %}")
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('comment_name').value = data.name;
+                    document.getElementById('comment_email').value = data.email;
+                });
+
+            $('#comment-modal').modal('show');
         });
     });
 </script>

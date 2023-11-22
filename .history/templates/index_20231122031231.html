@@ -13,7 +13,7 @@
                             <p class="card-text">{{ news_article.content|linebreaks }}</p>
                             <p class="card-text text-muted h6">{{ news_article.created_on }}</p>
                             <hr />
-                    
+
                             <div class="row">
                                 <div class="col-12">
                                     <!-- Stored comments according to article-id -->
@@ -22,13 +22,6 @@
                                             <div class="comment">
                                                 <strong>{{ comment.name }}</strong>
                                                 <p>{{ comment.comment_content }}</p>
-                                                {% if user.is_authenticated %}
-                                                <div class="justify-content-center">
-                                                    <button id="edit-comment-{{ news_article.id }}" class="btn btn-secondary btn-dark open-comment-form" data-action="edit" data-comment-id="{{ comment.id }}">Edit</button>
-                                                    <button id="delete-comment-{{ news_article.id }}" class="btn btn-secondary btn-dark open-comment-form" data-article-id="{{ news_article.id }}">Delete</button>
-                                                {% endif %}
-                                                </div>
-                                                <hr>
                                                 <small class="text-muted">{{ comment.created_on }}</small>
                                             </div>
                                         {% endfor %}
@@ -63,25 +56,13 @@
                 <!-- Your form content here -->
                 <form id="comment-form" method="POST">
                     {% csrf_token %}
-                    
-                    <!-- Name Field -->
-                    <div class="form-group">
-                      
-                        <input type="hidden" id="comment_name" name="name" class="form-control" required>
-                    </div>
-                    
-                    <!-- Email Field -->
-                    <div class="form-group">
-                      
-                        <input type="hidden" id="comment_email" name="email" class="form-control" required>
-                    </div>
-            
+
                     <!-- Comment Content Field -->
                     <div class="form-group">
                         <label for="comment_content">Comment:</label>
                         <textarea id="comment_content" name="comment_content" class="form-control" placeholder="Your comment" required></textarea>
                     </div>
-            
+
                     <!-- Confirmation Message (Hidden by Default) -->
                     <div id="comment-form-message" class="alert alert-success" style="display: none;">
                         Comment added successfully!
@@ -133,14 +114,6 @@
         // Include the article ID in the form data
         formData.append('article_id', articleId);
 
-        // Fetch the current user's name and email (if authenticated)
-        var commentName = "{% if user.is_authenticated %}{{ user.username }}{% else %}Anonymous{% endif %}";
-        var commentEmail = "{% if user.is_authenticated %}{{ user.email }}{% else %}anonymous@example.com{% endif %}";
-
-        // Update the hidden name and email fields
-        formData.append('name', commentName);
-        formData.append('email', commentEmail);
-
         form.action = "{% url 'add_comment_to_article' 0 %}".replace("0", articleId);
         console.log("Form action is: ", form.action);
         var xhr = new XMLHttpRequest();
@@ -187,5 +160,4 @@
         });
     });
 </script>
-
 {% endblock %}
