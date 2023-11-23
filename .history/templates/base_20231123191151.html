@@ -168,7 +168,7 @@
         form.dataset.commentId = commentId; 
 
         // Fetch the comment content for editing
-        $.get(`comment_form/${commentId}`, function (data) {
+        $.get(`editComment/${commentId}`, function (data) {
             document.getElementById('comment_content').value = data.commentContent;
             $('#comment-modal').modal('show');
         });
