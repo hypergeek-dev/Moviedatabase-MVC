@@ -100,7 +100,7 @@ def news_article_detail(request, id):
 # Function to add a comment to an article
 
 
-def add_comment_to_article(request, article_id):
+def new_comment(request, article_id):
     try:
         article = get_object_or_404(NewsArticle, id=article_id)
     except Exception as e:

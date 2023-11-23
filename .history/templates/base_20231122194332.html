@@ -19,7 +19,7 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
 
     <!-- jQuery and Bootstrap JavaScript -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
     </script>
@@ -101,29 +101,4 @@
         <!-- Footer content here -->
     </footer>
 </body>
-<script>
-    $(document).ready(function () {
-        // Initialize the modal
-        $('#comment-modal').modal();
-
-        // Handle the form submission using AJAX
-        $('#submit-button').on('click', function () {
-            $.ajax({
-                type: 'POST',
-               url 'comment_display' article_id=your_article_id_variable 
-                data: $('#comment-form').serialize(),
-                success: function (data) {
-                    // Handle success, update modal content or show a success message
-                    $('#comment-form-message').show().delay(2000).fadeOut();
-                },
-                error: function (xhr, errmsg, err) {
-                    // Handle errors, show an error message
-                    console.log(xhr.status + ": " + xhr.responseText);
-                }
-            });
-        });
-
-        // Other JavaScript functionality, if needed
-    });
-</script>
 </html>

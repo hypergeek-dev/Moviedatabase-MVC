@@ -110,5 +110,30 @@
     </ul>
 </nav>
 {% endif %}
+<script>
+    $(document).ready(function () {
+        // Initialize the modal
+        $('#comment-modal').modal();
+
+        // Handle the form submission using AJAX
+        $('#submit-button').on('click', function () {
+            $.ajax({
+                type: 'POST',
+                url: '{% url "your_comment_submit_view" %}',  // Replace with your actual URL
+                data: $('#comment-form').serialize(),
+                success: function (data) {
+                    // Handle success, update modal content or show a success message
+                    $('#comment-form-message').show().delay(2000).fadeOut();
+                },
+                error: function (xhr, errmsg, err) {
+                    // Handle errors, show an error message
+                    console.log(xhr.status + ": " + xhr.responseText);
+                }
+            });
+        });
+
+        // Other JavaScript functionality, if needed
+    });
+</script>
 
 {% endblock %}

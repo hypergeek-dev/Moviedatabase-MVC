@@ -12,11 +12,8 @@
                             <h2 class="card-title">{{ news_article.title }}</h2>
                             <p class="card-text">{{ news_article.content|linebreaks }}</p>
                             <p class="card-text text-muted h6">{{ news_article.created_on }}</p>
-                            {% if user.is_authenticated %}
-                            <button id="comment-form{{ news_article.id }}" class="btn btn-secondary btn-dark open-comment-form" data-article-id="{{ news_article.id }}">Add a Comment</button>
-                            {% endif %}
                             <hr />
-
+                    
                             <div class="row">
                                 <div class="col-12">
                                     <!-- Stored comments according to article-id -->
@@ -27,16 +24,18 @@
                                                 <p>{{ comment.comment_content }}</p>
                                                 {% if user.is_authenticated %}
                                                 <div class="justify-content-center">
-                                                    <button id="edit-comment-btn{{ news_article.id }}" class="btn btn-secondary btn-dark edit-comment-btn" data-comment-id="{{ comment.id }}">Edit</button>
-                                                    <button id="delete-comment-btn{{ news_article.id }}" class="btn btn-secondary btn-dark delete-comment-btn" data-comment-id="{{ comment.id }}">Delete</button>
+                                                    <button id="edit-comment-{{ news_article.id }}" class="btn btn-secondary btn-dark edit-comment-btn" data-action="edit" data-comment-id="{{ comment.id }}">Edit</button>
+                                                    <button id="delete-comment-{{ news_article.id }}" class="btn btn-secondary btn-dark delete-comment-btn" data-comment-id="{{ comment.id }}">Delete</button>
+                                                {% endif %}
                                                 </div>
                                                 <hr>
                                                 <small class="text-muted">{{ comment.created_on }}</small>
-                                                {% endif %}
                                             </div>
                                         {% endfor %}
                                     </div>
-
+                                    {% if user.is_authenticated %}
+                                    <button id="open-comment-form-{{ news_article.id }}" class="btn btn-secondary btn-dark open-comment-form" data-article-id="{{ news_article.id }}">Add a Comment</button>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -61,6 +60,7 @@
             </div>
             <!-- Modal Body -->
             <div class="modal-body">
+                <!-- Your form content here -->
                 <form id="comment-form" method="POST">
                     {% csrf_token %}
                     
@@ -110,5 +110,81 @@
     </ul>
 </nav>
 {% endif %}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let isEditMode = false;
+        let currentCommentId = null;
+        const myModal = new bootstrap.Modal(document.getElementById('comment-modal'));
+
+        Array.from(document.querySelectorAll(".open-comment-form")).forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                isEditMode = false;
+                currentCommentId = null;
+                document.getElementById('commentContent').value = '';
+                myModal.show();
+            });
+        });
+
+        Array.from(document.querySelectorAll(".edit-comment-btn")).forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                isEditMode = true;
+                currentCommentId = this.getAttribute("data-comment-id");
+
+                $.get(`/Home/EditComment?commentId=${currentCommentId}`, function (data) {
+                    document.getElementById('commentContent').value = data.commentContent;
+                });
+
+                myModal.show();
+            });
+        });
+
+        Array.from(document.querySelectorAll(".delete-comment-btn")).forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                const commentId = this.getAttribute("data-comment-id");
+
+                $.post("/Home/DeleteComment", { commentId: commentId }, function (response) {
+                    if (response.success) {
+                        const commentDiv = document.querySelector(`[data-comment-id="${commentId}"]`).closest(".comment");
+                        commentDiv.remove();
+                        myModal.hide();
+                        location.reload();
+                    }
+                });
+            });
+        });
+
+        document.getElementById('submit-button').addEventListener('click', function () {
+            const commentContent = document.getElementById('comment_content').value;
+
+            if (isEditMode) {
+                $.post("/Home/EditComment", { commentId: currentCommentId, newContent: commentContent }, function (response) {
+                    if (response.success) {
+                        myModal.hide();
+                        location.reload();
+                    }
+                });
+            } else {
+                const articleId = document.getElementById('comment-form').dataset.articleId;
+
+                if (articleId) {
+                    $.post("/Home/AddComment", { articleId: articleId, content: commentContent }, function (response) {
+                        if (response.success) {
+                            myModal.hide();
+                            location.reload();
+                        }
+                    });
+                } else {
+                    console.error("Article ID is not available.");
+                }
+            }
+        });
+
+        // Hide modal on close button
+        document.querySelector("[data-dismiss='modal']").addEventListener('click', function () {
+            myModal.hide();
+        });
+    });
+</script>
 
 {% endblock %}

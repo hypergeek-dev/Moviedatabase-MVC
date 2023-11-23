@@ -99,6 +99,8 @@ def news_article_detail(request, id):
 
 # Function to add a comment to an article
 
+# Initialize logging
+logger = logging.getLogger(__name__)
 
 def add_comment_to_article(request, article_id):
     try:
@@ -146,17 +148,7 @@ def edit_comment(request, comment_id):
         form = CommentForm(instance=comment)
 
     return render(request, 'edit_comment.html', {'form': form, 'comment': comment})
-def delete_comment(request, article_id, comment_id):
 
-    try:
-        comment = Comment.objects.get(id=comment_id, article__id=article_id)
-        comment.delete()
-        return JsonResponse({'result': 'Comment deleted successfully'})
-    except Comment.DoesNotExist:
-        return JsonResponse({'result': 'Comment not found'}, status=404)
-    except Exception as e:
-        return JsonResponse({'result': f'Error: {str(e)}'}, status=500)
-    
 # Feedback
 def feedback_view(request):
     if request.method == 'POST':

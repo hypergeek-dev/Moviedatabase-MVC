@@ -5,6 +5,12 @@
     "python.formatting.provider": "none",
     "cSpell.words": [
         "dotenv",
-        "spacy"
+        "spacy",
+        "summernote",
+        "whitenoise"
+    ],
+    "cSpell.ignoreWords": [
+        "newsarticle",
+        "sents"
     ]
 }
