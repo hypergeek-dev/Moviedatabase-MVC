@@ -191,7 +191,7 @@
 
             // Make an AJAX call to delete the comment
             $.ajax({
-                url: `delete_comment/${commentId}/`,
+                url: `delete_comment/${articleId}/${commentId}/`,
                 type: 'DELETE',
                 success: function(result) {
                     // Handle success, for example, refresh the page or update the UI

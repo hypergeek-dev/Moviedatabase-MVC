@@ -130,7 +130,7 @@
             formData.append('name', commentName);
             formData.append('email', commentEmail);
 
-            form.action = "{% url 'comment_display' 0 %}".replace("0", articleId);
+            form.action = "{% url 'add_comment_to_article' 0 %}".replace("0", articleId);
             console.log("Form action is: %s", form.action);
             var xhr = new XMLHttpRequest();
             xhr.open('POST', form.action, true);
@@ -165,10 +165,10 @@
        function handleEditButtonClick(editButton) {
         var commentId = editButton.getAttribute("data-comment-id");
         var form = document.getElementById('comment-form');
-        form.dataset.commentId = commentId; 
+        form.dataset.commentId = commentId;  // Store the comment ID in the dataset
 
         // Fetch the comment content for editing
-        $.get(`editComment?${commentId}`, function (data) {
+        $.get(`/EditComment?commentId=${commentId}`, function (data) {
             document.getElementById('comment_content').value = data.commentContent;
             $('#comment-modal').modal('show');
         });
@@ -191,7 +191,7 @@
 
             // Make an AJAX call to delete the comment
             $.ajax({
-                url: `delete_comment/${commentId}/`,
+                url: `/delete_comment/${articleId}/${commentId}/`,
                 type: 'DELETE',
                 success: function(result) {
                     // Handle success, for example, refresh the page or update the UI
