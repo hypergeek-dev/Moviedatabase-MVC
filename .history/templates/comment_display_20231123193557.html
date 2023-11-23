@@ -1,5 +1,6 @@
 <!-- comment_display.html -->
-
+{% extends "index.html" %}
+{% block content %}
 <div class="comment">
     <strong>{{ comment.name }}</strong>
     <p>{{ comment.comment_content }}</p>
@@ -13,3 +14,4 @@
         <small class="text-muted">{{ comment.created_on }}</small>
     {% endif %}
 </div>
+{% endblock %}
