@@ -1,7 +1,8 @@
-from django.urls import path, include
-from django.contrib.auth import views as auth_views
-from . import views  
-    
-    
-path("comment_display/<int:article_id>/", views.add_comment_to_article, name="comment_display"),
-path("comment_form/<int:id>/", views.edit_comment, name="comment_form"),
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('comments/add_comment/<int:article_id>/', views.add_comment_to_article, name='add_comment_to_article'),
+    path("edit_comment/<int:comment_id>/", views.edit_comment, name="edit_comment"),
+    path("delete_comment/<int:comment_id>/", views.delete_comment, name="delete_comment"),
+]
