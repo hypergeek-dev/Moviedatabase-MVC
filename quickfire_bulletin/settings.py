@@ -16,7 +16,7 @@ DJANGO_ADMIN_USERNAME = os.environ.get('DJANGO_ADMIN_USERNAME')
 
 DEBUG = os.environ.get('DEBUG') == 'True'
 
-ALLOWED_HOSTS = ['quickfire-bulletin-1054d3494a4d.herokuapp.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['quickfire-bulletin-1054d3494a4d.herokuapp.com', 'localhost', '127.0.0.1', '8000-hypergeekde-quickfirebu-eh5vbebe58t.ws-eu108.gitpod.io']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_summernote',
     'qfb_main',
+    'bootstrap5',
 ]
 
 MIDDLEWARE = [

@@ -5,8 +5,8 @@ from django.utils import timezone
 STATUS = ((0, "Draft"), (1, "Published"))
 
 class NewsArticle(models.Model):
-    title = models.CharField(max_length=200, unique=True)
-    slug = models.SlugField(max_length=200, unique=True)
+    title = models.CharField(max_length=255, unique=True)
+    slug = models.SlugField(max_length=255, unique=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="news_articles")
     excerpt = models.TextField(blank=True)
     updated_on = models.DateTimeField(auto_now=True)
@@ -29,6 +29,7 @@ class NewsArticle(models.Model):
 
 class Comment(models.Model):
     news_article = models.ForeignKey(NewsArticle, related_name='comments', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_comments', null=True)
     name = models.CharField(max_length=80)
     email = models.EmailField()
     comment_content = models.TextField()
@@ -43,7 +44,7 @@ class Comment(models.Model):
     
     
 class Feedback(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=255)
     email = models.EmailField()
     message = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
