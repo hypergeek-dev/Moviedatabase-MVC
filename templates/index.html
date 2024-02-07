@@ -10,7 +10,7 @@
                             <h2 class="card-title">{{ news_article.title }}</h2>
                             <p class="card-text">{{ news_article.content|linebreaks }}</p>
                             <p class="card-text text-muted h6">
-                                {{ news_article.created_on }}
+                                {{ news_article.created_on|date:"F d, Y" }}
                             </p>
                             <hr />
 
