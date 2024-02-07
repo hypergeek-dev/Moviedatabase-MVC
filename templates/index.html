@@ -1,63 +1,70 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
+
+{% block content %}
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-10 mt-3">
             <div class="row">
                 {% for news_article in news_article_list %}
                 <div class="col-12">
-                    <div class="card mb-4" style="width: 100%; margin: auto">
+                    <div class="card mb-4" style="width: 100%; margin: auto;">
                         <div class="card-body">
                             <h2 class="card-title">{{ news_article.title }}</h2>
                             <p class="card-text">{{ news_article.content|linebreaks }}</p>
-                            <p class="card-text text-muted h6">
-                                {{ news_article.created_on }}
-                            </p>
+                            <p class="card-text text-muted h6">{{ news_article.created_on }}</p>
                             <hr />
 
                             <div class="row">
                                 <div class="col-12">
                                     <div class="comments-section">
                                         {% for comment in news_article.comments.all %}
-                                        <div class="comment">
+                                        <div class="comment" id="comment-{{ comment.id }}">
                                             <strong>{{ comment.name }}</strong>
-                                            <p>{{ comment.comment_content }}</p>
+                                            <p id="comment-content-{{ comment.id }}">{{ comment.comment_content }}</p>
 
                                             {% if user.is_authenticated and comment.user == user %}
-
                                             <div class="justify-content-center">
-                                                <button id="edit-comment-btn{{ comment.id }}"
-                                                    class="btn btn-secondary btn-dark edit-comment-btn"
-                                                    data-comment-id="{{ comment.id }}">
+                                                <button onclick="showEditForm('{{ comment.id }}')"
+                                                        class="btn btn-secondary btn-dark">
                                                     Edit
                                                 </button>
-                                                <button id="delete-comment-btn{{ comment.id }}"
-                                                    class="btn btn-secondary btn-dark delete-comment-btn"
-                                                    data-comment-id="{{ comment.id }}">
-                                                    Delete
-                                                </button>
+                                                <form action="{% url 'delete_comment' comment.id %}" method="post" style="display: inline;">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?');">
+                                                        Delete
+                                                    </button>
+                                                </form>
+
+                                                <!-- Inline edit form (hidden by default) -->
+                                                <div class="edit-comment-form" id="edit-form-{{ comment.id }}" style="display: none;">
+                                                    <form method="POST" action="{% url 'edit_comment' comment.id %}">
+                                                        {% csrf_token %}
+                                                        <textarea class="form-control" name="comment_content">{{ comment.comment_content }}</textarea>
+                                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                                        <button type="button" class="btn btn-secondary" onclick="hideEditForm('{{ comment.id }}')">Cancel</button>
+                                                    </form>
+                                                </div>
                                             </div>
                                             {% endif %}
                                             <hr />
                                             <small class="text-muted">{{ comment.created_on }}</small>
                                         </div>
-                                        {% endfor %} {% if user.is_authenticated %}
+                                        {% endfor %}
+                                        <!-- Comment submission form -->
+                                        {% if user.is_authenticated %}
                                         <div class="modal-body">
-                                            <form method="POST"
-                                                action="{% url 'add_comment_to_article' article_id=news_article.id %}">
+                                            <form method="POST" action="{% url 'add_comment_to_article' article_id=news_article.id %}">
                                                 {% csrf_token %}
                                                 <div class="mb-3 align-items-center">
                                                     <div class="d-flex flex-column flex-md-row">
                                                         <div class="input-group mb-3 w-50">
                                                             <div class="input-group flex-grow-1 mx-md-2">
-                                                                <textarea class="form-control" name="comment_content"
-                                                                    aria-label="Comment area" required></textarea>
+                                                                <textarea class="form-control" name="comment_content" aria-label="Comment area" required></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <button type="submit" class="btn btn-primary">
-                                                    Submit
-                                                </button>
+                                                <button type="submit" class="btn btn-primary">Submit</button>
                                             </form>
                                         </div>
                                         {% endif %}
@@ -77,16 +84,25 @@
 <nav aria-label="Page navigation">
     <ul class="pagination justify-content-center">
         {% if page_obj.has_previous %}
-        <li>
-            <a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; PREV
-            </a>
-        </li>
-        {% endif %} {% if page_obj.has_next %}
-        <li>
-            <a href="?page={{ page_obj.next_page_number }}" class="page-link">
-                NEXT &raquo;</a>
-        </li>
+        <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; PREV</a></li>
+        {% endif %}
+        {% if page_obj.has_next %}
+        <li><a href="?page={{ page_obj.next_page_number }}" class="page-link">NEXT &raquo;</a></li>
         {% endif %}
     </ul>
 </nav>
-{% endif %} {% endblock %}
+{% endif %}
+
+<script>
+function showEditForm(commentId) {
+    document.getElementById('edit-form-' + commentId).style.display = 'block';
+    document.getElementById('comment-content-' + commentId).style.display = 'none';
+}
+
+function hideEditForm(commentId) {
+    document.getElementById('edit-form-' + commentId).style.display = 'none';
+    document.getElementById('comment-content-' + commentId).style.display = 'block';
+}
+</script>
+
+{% endblock %}
