@@ -1,26 +1,23 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse, HttpResponseBadRequest
-from .forms import CommentForm 
-from qfb_main.models import NewsArticle  
+from .forms import CommentForm
+from qfb_main.models import NewsArticle
 
 def add_comment_to_article(request, article_id):
- 
- 
     try:
         article = get_object_or_404(NewsArticle, id=article_id)
     except Exception as e:
         # Handle article not found error
         return JsonResponse({'result': 'Article not found'})
 
-    print("Article ID:", article_id)  
-
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
             new_comment = form.save(commit=False)
-            new_comment.news_article = article
+            new_comment.news_article = article  # Assuming your Comment model has a field to link it to NewsArticle
             if request.user.is_authenticated:
-                new_comment.name = request.user.username
+                new_comment.user = request.user  # Associate the comment with the currently logged-in user
+                new_comment.name = request.user.username  # Assuming you still want to use these fields
                 new_comment.email = request.user.email
             try:
                 new_comment.save()
@@ -32,6 +29,7 @@ def add_comment_to_article(request, article_id):
     else:
         form = CommentForm()
         return render(request, 'index.html', {'form': form, 'article_id': article_id})
+
 
 # Function to edit a comment
 def edit_comment(request, comment_id):
