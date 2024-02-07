@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse, HttpResponseBadRequest
 from .forms import CommentForm
+from .models import Comment
 from qfb_main.models import NewsArticle
 
 def add_comment_to_article(request, article_id):
@@ -47,10 +48,10 @@ def edit_comment(request, comment_id):
 
     return render(request, 'edit_comment.html', {'form': form, 'comment': comment})
 # Function to delete a comment
-def delete_comment(request, article_id, comment_id):
+def delete_comment(request, comment_id):
 
     try:
-        comment = Comment.objects.get(id=comment_id, article__id=article_id)
+        comment = Comment.objects.get(id=comment_id)
         comment.delete()
         return JsonResponse({'result': 'Comment deleted successfully'})
     except Comment.DoesNotExist:
