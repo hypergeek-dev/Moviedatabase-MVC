@@ -12,28 +12,45 @@
                             <h2 class="card-title">{{ news_article.title }}</h2>
                             <p class="card-text">{{ news_article.content|linebreaks }}</p>
                             <p class="card-text text-muted h6">{{ news_article.created_on }}</p>
-                            {% if user.is_authenticated %}
-                            <button id="comment-form{{ news_article.id }}" class="btn btn-secondary btn-dark open-comment-form" data-article-id="{{ news_article.id }}">Add a Comment</button>
-                            {% endif %}
                             <hr />
 
                             <div class="row">
                                 <div class="col-12">
-                                    <!-- Stored comments according to article-id -->
+
                                     <div class="comments-section">
                                         {% for comment in news_article.comments.all %}
-                                            <div class="comment">
-                                                <strong>{{ comment.name }}</strong>
-                                                <p>{{ comment.comment_content }}</p>
-                                                {% if user.is_authenticated %}
-                                                {% include 'comment_display.html' %}
-                                                <hr>
-                                                <small class="text-muted">{{ comment.created_on }}</small>
-                                                {% endif %}
+                                        <div class="comment">
+                                            <strong>{{ comment.name }}</strong>
+                                            <p>{{ comment.comment_content }}</p>
+                                            
+                                            {% if user.is_authenticated and comment.user == user %}
+                                            <div class="justify-content-center">
+                                                <button id="edit-comment-btn{{ comment.id }}" class="btn btn-secondary btn-dark edit-comment-btn" data-comment-id="{{ comment.id }}">Edit</button>
+                                                <button id="delete-comment-btn{{ comment.id }}" class="btn btn-secondary btn-dark delete-comment-btn" data-comment-id="{{ comment.id }}">Delete</button>
                                             </div>
+                                            {% endif %}
+                                            <hr>
+                                            <small class="text-muted">{{ comment.created_on }}</small>
+                                        </div>
                                         {% endfor %}
+                                        {% if user.is_authenticated %}
+                                        <div class="modal-body">
+                                            <form method="POST" action="{% url 'add_comment_to_article' article_id=news_article.id %}">
+                                                {% csrf_token %}
+                                                <div class="mb-3 align-items-center">
+                                                    <div class="d-flex flex-column flex-md-row">
+                                                        <div class="input-group mb-3 w-50">
+                                                            <div class="input-group flex-grow-1 mx-md-2">
+                                                                <textarea class="form-control" name="comment_content" aria-label="Comment area" required></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                            </form>
+                                        </div>
+                                        {% endif %}
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -45,12 +62,6 @@
     </div>
 </div>
 
-<!-- Modal -->
-
-<div class="modal-body">
-    {% include 'comment_form.html' %}
-</div>
-<!-- Pagination -->
 {% if is_paginated %}
 <nav aria-label="Page navigation">
     <ul class="pagination justify-content-center">
@@ -58,7 +69,7 @@
         <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; PREV </a></li>
         {% endif %}
         {% if page_obj.has_next %}
-        <li><a href="{% url 'news_article_list' %}?page={{ page_obj.next_page_number }}" class="page-link"> NEXT &raquo;</a></li>
+        <li><a href="?page={{ page_obj.next_page_number }}" class="page-link"> NEXT &raquo;</a></li>
         {% endif %}
     </ul>
 </nav>
