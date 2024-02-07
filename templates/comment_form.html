@@ -1,26 +1,47 @@
-<!-- comment_form.html -->
-
-<form id="comment-form" method="POST">
-    {% csrf_token %}
-    
-    <!-- Name Field -->
-    <div class="form-group">
-        <input type="hidden" id="comment_name" name="name" class="form-control" required>
+<div class="modal fade" id="comment-modal" tabindex="-1" role="dialog" aria-labelledby="comment-modal-label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="comment-modal-label">Add a Comment</h5>
+                <button type="button" class="close btn btn-secondary btn-dark" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <form id="comment-form" method="POST">
+                    {% csrf_token %}
+                    
+                    <!-- Name Field -->
+                    <div class="form-group">
+                        <input type="hidden" id="comment_name" name="name" class="form-control" required>
+                    </div>
+                    
+                    <!-- Email Field -->
+                    <div class="form-group">
+                        <input type="hidden" id="comment_email" name="email" class="form-control" required>
+                    </div>
+            
+                    <!-- Comment Content Field -->
+                    <div class="form-group">
+                        <label for="comment_content">Comment:</label>
+                        <textarea id="comment_content" name="comment_content" class="form-control" placeholder="Your comment" required></textarea>
+                    </div>
+            
+                    <!-- Confirmation Message (Hidden by Default) -->
+                    <div id="comment-form-message" class="alert alert-success" style="display: none;">
+                        Comment added successfully!
+                    </div>
+                </form>
+            </div>
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <!-- Cancel Button -->
+                <button type="button" class="btn btn-secondary btn-dark" data-bs-dismiss="modal">Cancel</button>
+                <!-- Submit Button -->
+                <button id="submit-button" type="button" class="btn btn-dark">Submit</button>
+            </div>
+        </div>
     </div>
-    
-    <!-- Email Field -->
-    <div class="form-group">
-        <input type="hidden" id="comment_email" name="email" class="form-control" required>
-    </div>
-
-    <!-- Comment Content Field -->
-    <div class="form-group">
-        <label for="comment_content">Comment:</label>
-        <textarea id="comment_content" name="comment_content" class="form-control" placeholder="Your comment" required></textarea>
-    </div>
-
-    <!-- Confirmation Message (Hidden by Default) -->
-    <div id="comment-form-message" class="alert alert-success" style="display: none;">
-        Comment added successfully!
-    </div>
-</form>
+</div>
