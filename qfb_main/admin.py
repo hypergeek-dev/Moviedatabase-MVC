@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import NewsArticle, Comment  
+from .models import NewsArticle
 from django_summernote.admin import SummernoteModelAdmin
 
 @admin.register(NewsArticle)
@@ -13,12 +13,3 @@ class PostAdmin(SummernoteModelAdmin):
     def has_change_permission(self, request, obj=None):
         return request.user.is_superuser
 
-@admin.register(Comment)
-class CommentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'comment_content', 'created_on', 'approved')   
-    list_filter = ('approved', 'created_on')
-    search_fields = ('name', 'email', 'body')
-    actions = ['approve_comments']
-
-    def approve_comments(self, request, queryset):
-        queryset.update(approved=True)
