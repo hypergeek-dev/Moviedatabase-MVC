@@ -13,4 +13,5 @@ urlpatterns = [
     path("account/login/", auth_views.LoginView.as_view(template_name="account/login.html"), name="account_login"),
     path("account/logout/", auth_views.LogoutView.as_view(template_name="account/logout.html"), name="account_logout"),
     path('account/signup/', views.account_signup, name='account_signup'),
+    path('comments/', include('comments.urls')),
 ]
