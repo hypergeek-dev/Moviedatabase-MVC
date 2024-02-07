@@ -1,13 +1,18 @@
-from django.shortcuts import render
-
-# Function to add a comment to an article
+from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse, HttpResponseBadRequest
+from .forms import CommentForm 
+from qfb_main.models import NewsArticle  
 
 def add_comment_to_article(request, article_id):
+ 
+ 
     try:
         article = get_object_or_404(NewsArticle, id=article_id)
     except Exception as e:
         # Handle article not found error
         return JsonResponse({'result': 'Article not found'})
+
+    print("Article ID:", article_id)  
 
     if request.method == 'POST':
         form = CommentForm(request.POST)
@@ -19,19 +24,14 @@ def add_comment_to_article(request, article_id):
                 new_comment.email = request.user.email
             try:
                 new_comment.save()
-                # Handle successful comment save
                 return JsonResponse({'result': 'Comment added successfully', 'comment_id': new_comment.id})
             except Exception as e:
-                # Handle error during comment save
                 return JsonResponse({'result': 'Failed to save comment'})
         else:
-            # Handle invalid form
             return HttpResponseBadRequest('Invalid form')
     else:
-        # Handle non-POST request (e.g., GET)
         form = CommentForm()
-    
-    return JsonResponse({'result': 'This was not a POST request'})
+        return render(request, 'index.html', {'form': form, 'article_id': article_id})
 
 # Function to edit a comment
 def edit_comment(request, comment_id):
