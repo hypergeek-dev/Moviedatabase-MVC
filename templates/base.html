@@ -7,15 +7,15 @@
     <meta name="description" content="Quickfire Bulletin - Your Source for Timely News and Information">
     <title>Quickfire Bulletin</title>
 
-  
+
     <link
         href='https://fonts.googleapis.com/css?family=Playfair+Display:400,700,900,400italic,700italic,900italic|Droid+Serif:400,700,400italic,700italic'
         rel='stylesheet' type='text/css'>
 
-   
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
- 
+
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -38,7 +38,7 @@
 
 <body class="d-flex flex-column h-100 main-bg">
     <header>
-    
+
         <nav class="navbar navbar-expand-lg navbar-light bg-white">
             <div class="container">
                 <a class="navbar-brand" href="{% url 'home' %}"><span class="brand"></span></a>
@@ -47,7 +47,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-       
+
                 <div class="collapse navbar-collapse" id="navbarText">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
@@ -85,10 +85,10 @@
         </div>
     </header>
 
-   
+
     <main class="flex-shrink-0 main-bg">
         {% block content %}
-  
+
         {% endblock content %}
     </main>
 
@@ -99,7 +99,7 @@
     {% block javascript %}
 
     <script src="{% static 'js/UserFeedback.js' %}"></script>
-{% endblock javascript %}
+    {% endblock javascript %}
 </body>
 
 </html>

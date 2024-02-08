@@ -109,10 +109,6 @@ def group_into_paragraphs(sentences, n=5):
         paragraphs.append(paragraph)
     return paragraphs
 
-
-# Example view functions below this line would similarly be adjusted for PEP 8 compliance
-# including appropriate spacing, line length adjustments, and added docstrings as needed.
-
 def news_article_list(request):
     """
     Renders a list of news articles.
@@ -126,5 +122,58 @@ def news_article_list(request):
     articles = NewsArticle.objects.filter(Q(status=1))
     return render(request, 'index.html', {'news_article_list': articles})
 
-# Additional functions like news_article_detail, feedback_view, account_signup, user_login, and user_logout
-# would follow similar adjustments for PEP 8 compliance.
+
+def news_article_detail(request, id):
+    article = get_object_or_404(NewsArticle, id=id)
+    return render(request, 'news_article_detail.html', {'article': article})
+
+
+def feedback_view(request):
+    if request.method == 'POST':
+        form = FeedbackForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your feedback has been submitted successfully.')
+            return redirect('home')
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        form = FeedbackForm()
+    return render(request, 'feedback.html', {'form': form})
+
+
+
+def account_signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            messages.success(request, 'You have signed up successfully.')
+            return redirect('home')
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        form = UserCreationForm()
+    return render(request, 'account/signup.html', {'form': form})
+
+
+def user_login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            messages.success(request, 'You are now logged in.')
+            return redirect('home')
+        else:
+            messages.error(request, 'Invalid username or password.')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'account/login.html', {'form': form})
+
+def user_logout(request):
+    logout(request)
+    messages.info(request, 'You have been logged out.')
+    return redirect('home')
+
