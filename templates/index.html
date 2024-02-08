@@ -6,80 +6,85 @@
         <div class="col-10 mt-3">
             <div class="row">
                 {% for news_article in news_article_list %}
-                <div class="col-12">
+                <div class="col-10">
                     <div class="card mb-4" style="width: 100%; margin: auto;">
                         <div class="card-body">
-                            <h2 class="card-title">{{ news_article.title }}</h2>
-                            <p class="card-text">{{ news_article.content|linebreaks }}</p>
                             <p class="card-text text-muted h6">
                                 {{ news_article.created_on|date:"F d, Y" }}
                             </p>
+                            <h2 class="card-title">{{ news_article.title }}</h2>
+                            <p class="card-text">{{ news_article.content|linebreaks }}</p>
+
                             <hr />
 
                             <div class="row">
-                                <div class="col-12">
+                                <div class="col-10">
                                     <div class="comments-section">
                                         {% for comment in news_article.comments.all %}
                                         <div class="comment" id="comment-{{ comment.id }}">
                                             <strong>{{ comment.name }}</strong>
                                             <p id="comment-content-{{ comment.id }}">{{ comment.comment_content }}</p>
-
+                                            <small class="text-muted">{{ comment.created_on }}</small>
                                             {% if user.is_authenticated and comment.user == user %}
                                             <div class="justify-content-center">
                                                 <button onclick="showEditForm('{{ comment.id }}')"
-                                                        class="btn btn-secondary btn-dark">
+                                                    class="btn btn-secondary btn-dark">
                                                     Edit
                                                 </button>
-                                                <form action="{% url 'delete_comment' comment.id %}" method="post" style="display: inline;">
-                                                    {% csrf_token %}
-                                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?');">
-                                                        Delete
-                                                    </button>
-                                                </form>
+                                                <button data-comment-id="{{ comment.id }}"
+                                                    class="delete-comment-btn btn btn-danger"
+                                                    onclick="return confirm('Are you sure?');">
+                                                    Delete
+                                                </button>
 
-                                                <!-- Inline edit form (hidden by default) -->
-                                                <div class="edit-comment-form" id="edit-form-{{ comment.id }}" style="display: none;">
-                                                    <form method="POST" action="{% url 'edit_comment' comment.id %}">
+                                                <div class="edit-comment-form" id="edit-form-{{ comment.id }}"
+                                                    style="display: none;">
+                                                    <form class="user-feedback" method="POST">
+                                                        <input type="hidden" name="comment_id" value="{{ comment.id }}">
                                                         {% csrf_token %}
-                                                        <textarea class="form-control" name="comment_content">{{ comment.comment_content }}</textarea>
-                                                        <button type="submit" class="btn btn-primary">Save changes</button>
-                                                        <button type="button" class="btn btn-secondary" onclick="hideEditForm('{{ comment.id }}')">Cancel</button>
+                                                        <textarea class="form-control"
+                                                            name="comment_content">{{ comment.comment_content }}</textarea>
+                                                        <button type="submit" class="btn btn-primary">Save
+                                                            changes</button>
+                                                        <button type="button" class="btn btn-secondary"
+                                                            onclick="hideEditForm('{{ comment.id }}')">Cancel</button>
                                                     </form>
                                                 </div>
                                             </div>
                                             {% endif %}
                                             <hr />
-                                            <small class="text-muted">{{ comment.created_on }}</small>
+
+
                                         </div>
                                         {% endfor %}
-                                        <!-- Comment submission form -->
                                         {% if user.is_authenticated %}
-                                        <div class="modal-body">
-                                            <form method="POST" action="{% url 'add_comment_to_article' article_id=news_article.id %}">
-                                                {% csrf_token %}
-                                                <div class="mb-3 align-items-center">
-                                                    <div class="d-flex flex-column flex-md-row">
-                                                        <div class="input-group mb-3 w-50">
-                                                            <div class="input-group flex-grow-1 mx-md-2">
-                                                                <textarea class="form-control" name="comment_content" aria-label="Comment area" required></textarea>
-                                                            </div>
+                                        <form class="user-feedback" method="POST">
+                                            <input type="hidden" name="article_id" value="{{ news_article.id }}">
+                                            {% csrf_token %}
+                                            <div class="mb-3 align-items-center">
+                                                <div class="d-flex flex-column flex-md-row">
+                                                    <div class="input-group mb-3 w-50">
+                                                        <div class="input-group flex-grow-1 mx-md-2">
+                                                            <textarea class="form-control" name="comment_content"
+                                                                aria-label="Comment area" required></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <button type="submit" class="btn btn-primary">Submit</button>
-                                            </form>
-                                        </div>
-                                        {% endif %}
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </form>
                                     </div>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                {% endfor %}
             </div>
+            {% endfor %}
         </div>
     </div>
+</div>
 </div>
 
 {% if is_paginated %}
@@ -96,15 +101,15 @@
 {% endif %}
 
 <script>
-function showEditForm(commentId) {
-    document.getElementById('edit-form-' + commentId).style.display = 'block';
-    document.getElementById('comment-content-' + commentId).style.display = 'none';
-}
+    function showEditForm(commentId) {
+        document.getElementById('edit-form-' + commentId).style.display = 'block';
+        document.getElementById('comment-content-' + commentId).style.display = 'none';
+    }
 
-function hideEditForm(commentId) {
-    document.getElementById('edit-form-' + commentId).style.display = 'none';
-    document.getElementById('comment-content-' + commentId).style.display = 'block';
-}
+    function hideEditForm(commentId) {
+        document.getElementById('edit-form-' + commentId).style.display = 'none';
+        document.getElementById('comment-content-' + commentId).style.display = 'block';
+    }
 </script>
 
 {% endblock %}

@@ -7,15 +7,15 @@
     <meta name="description" content="Quickfire Bulletin - Your Source for Timely News and Information">
     <title>Quickfire Bulletin</title>
 
-    <!-- Fonts -->
+  
     <link
         href='https://fonts.googleapis.com/css?family=Playfair+Display:400,700,900,400italic,700italic,900italic|Droid+Serif:400,700,400italic,700italic'
         rel='stylesheet' type='text/css'>
 
-    <!-- Font Awesome Icons -->
+   
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-    <!-- Viewport settings -->
+ 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -24,10 +24,10 @@
     {% bootstrap_css %}
     {% bootstrap_javascript %}
 
-    <!-- Include custom CSS -->
+
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-    <!-- Google Font -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz@6..72&family=Roboto+Slab&display=swap"
@@ -38,7 +38,7 @@
 
 <body class="d-flex flex-column h-100 main-bg">
     <header>
-        <!-- Navigation -->
+    
         <nav class="navbar navbar-expand-lg navbar-light bg-white">
             <div class="container">
                 <a class="navbar-brand" href="{% url 'home' %}"><span class="brand"></span></a>
@@ -47,13 +47,12 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <!-- Collapsible Navigation -->
+       
                 <div class="collapse navbar-collapse" id="navbarText">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
                         </li>
-                        <!-- Feedback link moved out of the if-else block -->
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'feedback' %}">Feedback</a>
                         </li>
@@ -86,18 +85,21 @@
         </div>
     </header>
 
-    <!-- Main Content -->
+   
     <main class="flex-shrink-0 main-bg">
         {% block content %}
-        <!-- Content Goes here -->
+  
         {% endblock content %}
     </main>
 
-    <!-- Footer -->
-    <footer>
-        <!-- Footer content here -->
-    </footer>
 
+    <footer>
+
+    </footer>
+    {% block javascript %}
+
+    <script src="{% static 'js/UserFeedback.js' %}"></script>
+{% endblock javascript %}
 </body>
 
 </html>
