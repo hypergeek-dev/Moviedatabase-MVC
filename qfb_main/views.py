@@ -17,16 +17,13 @@ import uuid
 from qfb_main.models import NewsArticle
 from comments.forms import CommentForm
 from feedback.forms import FeedbackForm
-import spacy
 from comments.models import Comment
 
-# Load spacy model
-nlp = spacy.load("en_core_web_sm")
 
-# Define a logger
+
 logger = logging.getLogger(__name__)
 
-# Function to fetch news
+
 
 
 def fetch_news(request=None):
@@ -97,14 +94,13 @@ def make_api_call():
     url = f"https://newsdata.io/api/1/news?apikey={api_key}&country=us&language=en"
     return requests.get(url)
 
-# Function to render news articles
 
 
 def news_article_list(request):
     articles = NewsArticle.objects.filter(Q(status=1))
     return render(request, 'index.html', {'news_article_list': articles})
 
-# Function to render individual news article details
+
 
 
 def news_article_detail(request, id):
@@ -112,18 +108,19 @@ def news_article_detail(request, id):
     return render(request, 'news_article_detail.html', {'article': article})
 
 
-# Feedback
 def feedback_view(request):
     if request.method == 'POST':
         form = FeedbackForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Your feedback has been submitted successfully.')
             return redirect('home')
+        else:
+            messages.error(request, 'Please correct the errors below.')
     else:
         form = FeedbackForm()
     return render(request, 'feedback.html', {'form': form})
 
-# Signup view
 
 
 def account_signup(request):
@@ -132,12 +129,13 @@ def account_signup(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
+            messages.success(request, 'You have signed up successfully.')
             return redirect('home')
+        else:
+            messages.error(request, 'Please correct the errors below.')
     else:
         form = UserCreationForm()
     return render(request, 'account/signup.html', {'form': form})
-
-# Login view
 
 
 def user_login(request):
@@ -146,14 +144,15 @@ def user_login(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
+            messages.success(request, 'You are now logged in.')
             return redirect('home')
+        else:
+            messages.error(request, 'Invalid username or password.')
     else:
         form = AuthenticationForm()
     return render(request, 'account/login.html', {'form': form})
 
-# Logout view
-
-
 def user_logout(request):
     logout(request)
+    messages.info(request, 'You have been logged out.')
     return redirect('home')
