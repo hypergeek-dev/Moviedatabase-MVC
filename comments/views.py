@@ -29,8 +29,6 @@ def add_comment_to_article(request, article_id):
     else:
         return JsonResponse({'success': False, 'error': 'Invalid form data'}, status=400)
 
-
-# Function to edit a comment
 def edit_comment(request, comment_id):
     if request.method != 'POST':
         return JsonResponse({'success': False, 'error': 'HTTP method not allowed'}, status=405)
