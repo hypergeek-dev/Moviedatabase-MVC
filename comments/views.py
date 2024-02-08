@@ -1,17 +1,16 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
+from django.views.decorators.http import require_POST
 from .forms import CommentForm
 from .models import Comment
 from qfb_main.models import NewsArticle
+
+@require_POST
 def add_comment_to_article(request, article_id):
-    if request.method != 'POST':
-        return JsonResponse({'error': 'HTTP method not allowed'}, status=405)
-
-    try:
-        article = get_object_or_404(NewsArticle, id=article_id)
-    except Exception as e:
-        return JsonResponse({'success': False, 'error': 'Article not found'}, status=404)
-
+    """
+    Adds a comment to an article identified by article_id.
+    """
+    article = get_object_or_404(NewsArticle, id=article_id)
     form = CommentForm(request.POST)
     if form.is_valid():
         new_comment = form.save(commit=False)
@@ -20,41 +19,29 @@ def add_comment_to_article(request, article_id):
             new_comment.user = request.user
             new_comment.name = request.user.username
             new_comment.email = request.user.email
-        try:
-            new_comment.save()
-          
-            return JsonResponse({'success': True, 'message': 'Comment added successfully', 'comment_id': new_comment.id})
-        except Exception as e:
-            return JsonResponse({'success': False, 'error': 'Failed to save comment'}, status=500)
+        new_comment.save()
+        return JsonResponse({'success': True, 'message': 'Comment added successfully', 'comment_id': new_comment.id})
     else:
         return JsonResponse({'success': False, 'error': 'Invalid form data'}, status=400)
 
+@require_POST
 def edit_comment(request, comment_id):
-    if request.method != 'POST':
-        return JsonResponse({'success': False, 'error': 'HTTP method not allowed'}, status=405)
-
+    """
+    Edits an existing comment identified by comment_id.
+    """
     comment = get_object_or_404(Comment, id=comment_id)
     form = CommentForm(request.POST, instance=comment)
     if form.is_valid():
-        try:
-            form.save()
-            return JsonResponse({'success': True, 'message': 'Comment edited successfully'})
-        except Exception as e:
-            return JsonResponse({'success': False, 'error': 'Failed to edit comment'}, status=500)
+        form.save()
+        return JsonResponse({'success': True, 'message': 'Comment edited successfully'})
     else:
         return JsonResponse({'success': False, 'error': 'Invalid form data'}, status=400)
 
-
+@require_POST
 def delete_comment(request, comment_id):
-    if request.method != 'POST':
-        return JsonResponse({'success': False, 'error': 'HTTP method not allowed'}, status=405)
-
-    try:
-        comment = get_object_or_404(Comment, id=comment_id)
-        comment.delete()
-        return JsonResponse({'success': True, 'message': 'Comment deleted successfully'})
-    except Comment.DoesNotExist:
-        return JsonResponse({'success': False, 'error': 'Comment not found'}, status=404)
-    except Exception as e:
-        return JsonResponse({'success': False, 'error': f'Error: {str(e)}'}, status=500)
-
+    """
+    Deletes an existing comment identified by comment_id.
+    """
+    comment = get_object_or_404(Comment, id=comment_id)
+    comment.delete()
+    return JsonResponse({'success': True, 'message': 'Comment deleted successfully'})
