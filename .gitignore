@@ -6,3 +6,4 @@ node_modules/
 */__pycache__/*
 migrations/*.py
 *initial.py
+*/*_initial.py
