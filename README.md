@@ -97,8 +97,10 @@ As a user, you can:
     ```bash
     pip install -r requirements.txt
     ```
+6. Download the NLP model
+    python -m spacy download en_core_web_sm
 
-6. Create a `.env` file in the project root and add your environment variables:
+7. Create a `.env` file in the project root and add your environment variables:
     ```env
     SECRET_KEY=your_secret_key
     DEBUG=True
@@ -106,18 +108,18 @@ As a user, you can:
     NEWS_API_KEY=your_news_api_key
     ```
 
-7. Run migrations:
+8. Run migrations:
     ```bash
     python manage.py makemigrations
     python manage.py migrate
     ```
 
-8. Create a superuser:
+9. Create a superuser:
     ```bash
     python manage.py createsuperuser
     ```
 
-9. Run the development server:
+10. Run the development server:
     ```bash
     python manage.py runserver
     ```
@@ -134,33 +136,19 @@ The project started with the basic setup of a Django project and the creation of
 
 One of the first major tasks was to integrate the NewsData.io API to fetch news articles. This involved writing a function (`fetch_news`) that makes an HTTP request to the API, processes the JSON response, and populates the database with news articles.
 
-### Natural Language Processing
 
-Using Natural Language Processing, my Quickfire Bulletin application enhances text readability by intelligently dividing articles into coherent paragraphs. NLP understands the context and semantic structure, ensuring each paragraph focuses on a single idea. This not only improves user experience but also scales easily as the platform grows. Well-structured content can also boost user engagement and potentially improve SEO rankings. Overall, NLP offers a dynamic, automated solution for text formatting, crucial for delivering easily digestible news articles.
+## Testing
+
+### Comments
+
+Automatic testing has been created for the add, edit and delete comment function.
+
+1. Ensures the user is authenticated.
+2. Creates a mock article object or use a fixture to insert an article into the test database.
+3. Simulates a POST request with valid form data.
+4. Asserts that the response indicates success and the comment has been added to the database.
 
 ### Debugging and Error Handling
-
-During development, several issues were encountered, such as missing imports, API key errors, and database issues. These were debugged using Django's built-in debugging tools, logging, and Python's traceback module.
-
-### User Interface
-
-The frontend was designed using HTML and CSS. Pagination was implemented to display a limited number of articles per page. The UI also includes forms for user registration, login, and commenting.
-
-### Admin Dashboard
-
-An admin dashboard was created using Django's built-in admin interface. This allows admin users to manage news articles and user accounts.
-
-### Commenting and Likes
-
-The ability for users to comment on articles and like each other's comments was added. This involved creating new models and forms, as well as modifying the views and templates.
-
-### Text Formatting
-
-The news articles fetched from the API initially appeared as a single text string without line breaks. A text processing step was added to divide the content into paragraphs for better readability. I used Natural Language Processing in this step.
-
-### Deployment
-
-The application was prepared for deployment with the inclusion of Whitenoise for static file management.
 
 ### Troubleshooting
 
@@ -175,22 +163,24 @@ To ensure data integrity, I implemented client-side form validation using JavaSc
 #### Issue 2: Missing Fields in Form
 
 **Problem**:
-The comment form initially lacked "Name" and "Email" fields.
-
-**Solution**:
-I integrated the "Name" and "Email" fields into the comment form to gather additional user information when submitting a comment. These fields were added as text input and email input fields, respectively.
-
-#### Issue 3: Form Data Not Including Name and Email
-
-**Problem**:
-Even after adding "Name" and "Email" fields to the form, the form data being sent to the server did not include this information.
+Initially the comment form initially lacked "Name" and "Email" fields. When I integrated the "Name" and "Email" fields into the comment form to gather additional user information when submitting a comment the form data being sent to the server did not include this information.
 
 **Solution**:
 To include the "Name" and "Email" in the form data when submitting a comment, I modified the JavaScript code that handles form submission. Specifically, I added code to retrieve the values of these fields and append them to the form data using the `formData.append()` method.
 
-Each of these issues required specific troubleshooting steps, including code debugging, environment variable checks, and server log reviews.
+#### Issue 3.
 
-By overcoming these challenges, the project has reached its current state, offering a robust set of features for a news bulletin platform.
+### Text Formatting
+
+The news articles fetched from the API initially appeared as a single text string without line breaks. A text processing step was added to divide the content into paragraphs for better readability. I used a Natural Language Processing model from spacy called `en_core_web_sm` and python logic to break lines into statements and parce dem nicely as a readable text-article.
+
+#### Issue 4.
+
+During development, the newsapi.io made changes to their policy on free accounts making the content of articles only available to paying users. That caused the limitation of not being able to get new content. 
+
+**solution**
+
+I migrated the content of the database and created a local SQlite database for demonstration purposes. Users will have to find either another free news api or be a paid user to use this app successfully.
 
 ## Wireframes
 
