@@ -16,7 +16,7 @@ DJANGO_ADMIN_USERNAME = os.environ.get('DJANGO_ADMIN_USERNAME')
 
 DEBUG = os.environ.get('DEBUG') == 'True'
 
-ALLOWED_HOSTS = ['quickfire-bulletin-1054d3494a4d.herokuapp.com', 'localhost', '127.0.0.1', '8000-hypergeekde-quickfirebu-eh5vbebe58t.ws-eu108.gitpod.io']
+ALLOWED_HOSTS = ['quickfire-bulletin-1054d3494a4d.herokuapp.com', 'localhost', '127.0.0.1', '8000-hypergeekde-quickfirebu-b3e9qadvqyy.ws-eu108.gitpod.io']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -65,8 +65,12 @@ TEMPLATES = [
 WSGI_APPLICATION = 'quickfire_bulletin.wsgi.application'
 
 DATABASES = {
-    'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
