@@ -1,23 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@500&family=Droid+Serif&family=Playfair+Display:wght@900&display=swap');
 
 body {
-    font-family: 'Noto Sans', sans-serif; /* Global font change to Noto Sans */
+    font-family: 'Noto Sans', sans-serif;
     font-size: 14px;
     color: #2f2f2f;
     background-color: #F7F7F7;
     font-optical-sizing: auto;
     font-weight: 500;
     font-style: normal;
-    /* Removed the font-variation-settings as it's often not necessary for global settings unless you're adjusting it for specific elements */
 }
 
 .headline {
     font-family: 'Playfair Display', serif;
     font-weight: 900;
-    font-size: 80px;
     text-transform: uppercase;
     display: inline-block;
-    line-height: 72px;
+    line-height: 1; 
     margin-bottom: 20px;
 }
 
@@ -28,7 +26,8 @@ body {
     padding: 12px 0;
 }
 
-p {
-    margin-top: 0;
-    margin-bottom: 20px;
+@media (max-width: 768px) {
+    .headline {
+        font-size: 6.5vw; 
+    }
 }

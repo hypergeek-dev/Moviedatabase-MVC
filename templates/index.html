@@ -3,81 +3,50 @@
 {% block content %}
 <div class="container-fluid">
     <div class="row justify-content-center">
-        <div class="col-10 mt-3">
-            <div class="row justify-content-center">
-                {% for news_article in news_article_list %}
-                <div class="col-10">
-                    <div class="card mb-4" style="width: 100%; margin: auto;">
-                        <div class="card-body">
-                            <p class="card-text text-muted h6">
-                                {{ news_article.created_on|date:"F d, Y" }}
-                            </p>
-                            <h2 class="card-title">{{ news_article.title }}</h2>
-                            <p class="card-text">{{ news_article.content|linebreaks }}</p>
-
-                            <hr />
-
-                            <div class="row">
-                                <div class="col-10">
-                                    <div class="comments-section">
-                                        {% for comment in news_article.comments.all %}
-                                        <div class="comment" id="comment-{{ comment.id }}">
-                                            <strong>{{ comment.name }}</strong>
-                                            <p id="comment-content-{{ comment.id }}">{{ comment.comment_content }}</p>
-                                            <small class="text-muted">{{ comment.created_on }}</small>
-                                            {% if user.is_authenticated and comment.user == user %}
-                                            <div class="justify-content-center">
-                                                <button onclick="showEditForm('{{ comment.id }}')"
-                                                    class="btn btn-secondary btn-dark">
-                                                    Edit
-                                                </button>
-                                                <button data-comment-id="{{ comment.id }}"
-                                                    class="delete-comment-btn btn btn-danger"
-                                                    onclick="return confirm('Are you sure?');">
-                                                    Delete
-                                                </button>
-
-                                                <div class="edit-comment-form" id="edit-form-{{ comment.id }}"
-                                                    style="display: none;">
-                                                    <form class="user-feedback" method="POST">
-                                                        <input type="hidden" name="comment_id" value="{{ comment.id }}">
-                                                        {% csrf_token %}
-                                                        <textarea class="form-control"
-                                                            name="comment_content">{{ comment.comment_content }}</textarea>
-                                                        <button type="submit" class="btn btn-primary">Save
-                                                            changes</button>
-                                                        <button type="button" class="btn btn-secondary"
-                                                            onclick="hideEditForm('{{ comment.id }}')">Cancel</button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                            {% endif %}
-                                            <hr />
-
-
-                                        </div>
-                                        {% endfor %}
-                                        {% if user.is_authenticated %}
-                                        <form class="user-feedback" method="POST">
-                                            <input type="hidden" name="article_id" value="{{ news_article.id }}">
-                                            {% csrf_token %}
-                                            <div class="mb-3 align-items-center">
-                                                <div class="d-flex flex-column flex-md-row">
-                                                    <div class="input-group mb-3 w-50">
-                                                        <div class="input-group flex-grow-1 mx-md-2">
-                                                            <textarea class="form-control" name="comment_content"
-                                                                aria-label="Comment area" required></textarea>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Submit</button>
-                                        </form>
-                                    </div>
-                                    {% endif %}
-                                </div>
+        <div class="col-lg-8 col-md-10 mt-3">
+            {% for news_article in news_article_list %}
+            <div class="card mb-4">
+                <div class="card-body">
+                    <p class="card-text text-muted h6">
+                        {{ news_article.created_on|date:"F d, Y" }}
+                    </p>
+                    <h2 class="card-title">{{ news_article.title }}</h2>
+                    <p class="card-text">{{ news_article.content|linebreaks }}</p>
+                    <hr />
+                    <div class="comments-section">
+                        {% for comment in news_article.comments.all %}
+                        <div class="comment mb-2" id="comment-{{ comment.id }}">
+                            <strong>{{ comment.name }}</strong>
+                            <p id="comment-content-{{ comment.id }}">{{ comment.comment_content }}</p>
+                            <small class="text-muted">{{ comment.created_on }}</small>
+                            {% if user.is_authenticated and comment.user == user %}
+                            <div class="mt-2">
+                                <button onclick="showEditForm('{{ comment.id }}')" class="btn btn-sm btn-secondary">Edit</button>
+                                <button data-comment-id="{{ comment.id }}" class="delete-comment-btn btn btn-sm btn-danger" onclick="return confirm('Are you sure?');">Delete</button>
                             </div>
+                            <div class="edit-comment-form mt-2" id="edit-form-{{ comment.id }}" style="display: none;">
+                                <form class="user-feedback" method="POST">
+                                    <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                                    {% csrf_token %}
+                                    <textarea class="form-control" name="comment_content" required>{{ comment.comment_content }}</textarea>
+                                    <div class="mt-2">
+                                        <button type="submit" class="btn btn-primary btn-sm">Save changes</button>
+                                        <button type="button" class="btn btn-secondary btn-sm" onclick="hideEditForm('{{ comment.id }}')">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+                            {% endif %}
+                            <hr />
                         </div>
+                        {% endfor %}
+                        {% if user.is_authenticated %}
+                        <form class="user-feedback mt-3" method="POST">
+                            <input type="hidden" name="article_id" value="{{ news_article.id }}">
+                            {% csrf_token %}
+                            <textarea class="form-control" name="comment_content" aria-label="Comment area" required></textarea>
+                            <button type="submit" class="btn btn-primary mt-2">Submit</button>
+                        </form>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -85,16 +54,22 @@
         </div>
     </div>
 </div>
-</div>
 
 {% if is_paginated %}
-<nav aria-label="Page navigation">
+<nav aria-label="Page navigation" class="mt-4">
     <ul class="pagination justify-content-center">
         {% if page_obj.has_previous %}
-        <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; PREV</a></li>
+        <li class="page-item"><a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; PREV</a></li>
         {% endif %}
+        {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+        <li class="page-item active"><a href="?page={{ num }}" class="page-link">{{ num }}</a></li>
+        {% else %}
+        <li class="page-item"><a href="?page={{ num }}" class="page-link">{{ num }}</a></li>
+        {% endif %}
+        {% endfor %}
         {% if page_obj.has_next %}
-        <li><a href="?page={{ page_obj.next_page_number }}" class="page-link">NEXT &raquo;</a></li>
+        <li class="page-item"><a href="?page={{ page_obj.next_page_number }}" class="page-link">NEXT &raquo;</a></li>
         {% endif %}
     </ul>
 </nav>
