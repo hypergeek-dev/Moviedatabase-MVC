@@ -148,6 +148,19 @@ Automatic testing has been created for the add, edit and delete comment function
 3. Simulates a POST request with valid form data.
 4. Asserts that the response indicates success and the comment has been added to the database.
 
+
+### Feedback form
+
+#### GET Request Test
+- **Status Code:** Ensures the feedback page is accessible with a 200 OK response.
+- **Template Use:** Confirms `feedback.html` is used for the feedback form.
+- **Form Instance:** Verifies `FeedbackForm` is passed to the template.
+
+#### POST Request Test (Invalid Data)
+- **Status Code:** Checks for a 200 OK response, indicating the form is reloaded with errors.
+- **Form Error:** Validates the presence of expected errors for missing or invalid data.
+
+
 ### Debugging and Error Handling
 
 ### Troubleshooting
