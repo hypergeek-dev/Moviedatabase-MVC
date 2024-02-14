@@ -9,7 +9,7 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_comments', null=True)
     name = models.CharField(max_length=80)
     email = models.EmailField()
-    content = models.TextField()  # Renamed for simplicity
+    comment_content = models.TextField()  
     created_on = models.DateTimeField(auto_now_add=True)
     approved = models.BooleanField(default=True)
 
