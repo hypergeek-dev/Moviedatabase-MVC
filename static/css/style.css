@@ -14,9 +14,11 @@ body {
     font-family: 'Playfair Display', serif;
     font-weight: 900;
     text-transform: uppercase;
+    font-size:3rem;
     display: inline-block;
     line-height: 1; 
-    margin-bottom: 20px;
+    margin-bottom: 2vh;
+    margin-top: 2vh;
 }
 
 .subhead {
