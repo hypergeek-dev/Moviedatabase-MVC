@@ -18,7 +18,7 @@
 
 Quickfire Bulletin is a cutting-edge Django-based web application designed to revolutionize the way users engage with news bulletins. Unlike traditional platforms, it uniquely integrates real-time news fetching with interactive user features like commenting and liking, fostering a dynamic community of informed individuals. What sets Quickfire Bulletin apart is its commitment to [unique selling points or features], designed with a focus on modularity, extensibility, and a seamless user experience.
 
-[Live Demo](http://quickfirebulletin-9159c210d03e.herokuapp.com/)
+[Live Demo](http://quickfirebulletin-9159c210d03e.herokuapp.com/](https://quickfirebulletin-9159c210d03e.herokuapp.com)
 
 ## Features
 
