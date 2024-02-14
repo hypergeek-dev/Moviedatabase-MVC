@@ -2,7 +2,6 @@ from django.core.management.base import BaseCommand
 from qfb_main.views import fetch_news
 import logging
 
-# It's recommended to configure logging in settings.py for larger projects
 logging.basicConfig(level=logging.DEBUG)
 
 class Command(BaseCommand):
