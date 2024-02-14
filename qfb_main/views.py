@@ -4,7 +4,6 @@ import os
 import traceback
 import uuid
 from datetime import datetime
-
 import requests
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -15,7 +14,6 @@ from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.text import slugify
-
 from comments.forms import CommentForm
 from comments.models import Comment
 from feedback.forms import FeedbackForm
@@ -59,7 +57,6 @@ def fetch_news(request=None):
                         pub_date = datetime.strptime(pub_date_str, '%Y-%m-%d %H:%M:%S')
                         pub_date = timezone.make_aware(pub_date)
                     slug = slugify(article['title']) + '-' + str(uuid.uuid4())[:8]
-                    # Assuming 'nlp' object is predefined and accessible
                     doc = nlp(article.get('content', ''))
                     sentences = [sent.text for sent in doc.sents]
 
@@ -70,7 +67,7 @@ def fetch_news(request=None):
                         defaults={
                             'slug': slug,
                             'content': formatted_content,
-                            'author_id': 1,  # Assuming a default author ID
+                            'author_id': 1,
                             'source_id': article['source_id'],
                             'source_priority': article['source_priority'],
                             'category': ','.join(article['category']),
