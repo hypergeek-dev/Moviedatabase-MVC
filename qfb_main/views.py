@@ -20,6 +20,8 @@ from comments.forms import CommentForm
 from comments.models import Comment
 from feedback.forms import FeedbackForm
 from qfb_main.models import NewsArticle
+import spacy
+from spacy.lang.en import English
 
 logger = logging.getLogger(__name__)
 
