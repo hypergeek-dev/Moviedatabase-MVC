@@ -40,9 +40,8 @@ To set up Quickfire Bulletin on your system, follow these steps:
     git clone https://github.com/yourusername/quickfire_bulletin.git
     ```
 
-2. [Installation steps continue...]
+2. [Installation steps]
 
-**Note**: For detailed instructions on each step, refer to [installation guide or wiki page].
 
 ### Usage
 
