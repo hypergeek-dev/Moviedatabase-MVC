@@ -93,12 +93,13 @@
     <footer class="footer mt-auto py-3 bg-light">
         <div class="container text-center">
             {% if user.is_staff %}
-                <a href="{% url 'admin:index' %}" class="btn btn-primary">
+                <a href="{% url 'admin:index' %}" class="btn btn-dark">
                     <i class="fas fa-user-shield"></i> Admin Panel
                 </a>
             {% endif %}
         </div>
     </footer>
+    
     
     {% block javascript %}
 
