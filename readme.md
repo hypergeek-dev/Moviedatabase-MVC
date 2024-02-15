@@ -19,6 +19,36 @@ and the design is responsive on all devices.
 - **Commenting**: Users can comment on news articles.
 - **Pagination**: The home page displays news articles in a paginated format.
 
+## Visual Overview
+
+The following is a visual presentation of the features implemented in this app.
+
+### User Authentication
+
+![User signup](static/images/staticfiles/images/signup.png)
+![User login](static/images/staticfiles/images/login.png)
+
+See how users can effortlessly register, log in, and navigate through their accounts.
+
+### Commenting System
+
+![Commenting](static/images/comment_-_field.png)
+
+A look at the dynamic commenting feature that fosters community discussions on news articles. From the top, it shows how it looks after the edit has been pressed and save changes or delete function is available.
+
+At the bottom, it shows a regular submit comment field.
+
+### Pagination
+
+![Pagination and admin access](static/images/admin.png)
+
+This is the pagination button, ensuring a clean and accessible user experience. Also visible is the admin-panel button accessible for admins after a successful login attempt. Any other user will not see this button.
+
+### Feedback
+
+![Feedback form](static/images/feedback.png)
+
+Both visitors and authorized users can submit feedback to the site.
 
 # User Stories
 
@@ -129,7 +159,32 @@ First I had to fetch the response from the API. The response was then formed as 
 
 - **Missing Fields in Form**: After adding "Name" and "Email" fields, the form data sent to the server did not include this information. Adjusting the JavaScript code handling form submission to include these values solved the issue.
 
-##### Validation
+# Database Relationships Overview
+![diagram](/static/images/diagram.png )
+
+## User Model
+
+### Comments Relationship
+- Each user can make multiple comments on news articles. This is represented as a **one-to-many relationship**, with the `Comment` model containing a foreign key that references the `User` model. This setup allows us to track which user made specific comments on news articles.
+
+### NewsArticle Relationship
+- General users do not have a direct authorship relationship with news articles. Instead, article creation and management are restricted to **system administrators**. The `NewsArticle` model includes a foreign key to the `User` model, designated for admin users only, indicating which admin user created or manages each article. Thus, typical user interactions are limited to reading articles and making comments, without the ability to create or manage articles.
+
+## NewsArticle Model
+
+### Admin Authorship
+- The `author` field in the `NewsArticle` model establishes a link to the `User` model, exclusively for **admin users**. This **one-to-many relationship** allows a single admin user to author multiple news articles, enabling a clear separation of roles within the system. Admin users are responsible for the creation, editing, and deletion of news articles, a part of the content management workflow.
+
+### API Authorship
+- Some articles may be generated through automated processes, such as **API fetches**, and not directly associated with any admin user. To accommodate this, these articles may be linked to a generic admin account or handled through specific logic that distinguishes them from articles created by human admins. This flexibility ensures the system can include both manually and automatically generated content seamlessly.
+
+## Comment Model
+
+### Relationship to NewsArticle and User
+- The structure of the `Comment` model facilitates users' ability to comment on articles. Each comment is associated with a specific `NewsArticle` through a foreign key, and optionally, with a `User`, to denote who made the comment. This **many-to-one relationship** with both `NewsArticle` and `User` models supports interactive discussions on published content, enriching the user experience by enabling community engagement.
+
+
+# Validation
 
 Note: I noticed Djangos built in authentication causes validation errors. I chose not to solve this issue, waiting for future updates to the authentication module. 
 
