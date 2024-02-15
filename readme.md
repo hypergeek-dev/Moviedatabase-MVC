@@ -108,9 +108,10 @@ I planned from the beginning for a simplistic design, aiming for high accessibil
 
 ![Wireframe 1](/static/images/Wireframe1.png)
 
-![Wireframe 2](/static/images/Wireframe2.png)
-
-![Wireframe 3](/static/images/Wireframe3.png)
+<p float="left">
+  <img src="/static/images/Wireframe2.png" alt="Wireframe 2" width="400" />
+  <img src="/static/images/Wireframe3.png" alt="Wireframe 3" width="400" />
+</p>
 
 As part of my development process, I've identified and prioritized features and tasks using the MoSCoW method (Must have, Should have, Could have, Won't have this time). For a more detailed breakdown and elaboration of these priorities and how they align with my project goals, please refer to my detailed planning document available here: [Detailed Project Planning and Prioritization](https://docs.google.com/spreadsheets/d/e/2PACX-1vSc2WF7hxm_uG6K457U6--8xUPsG_PwHrYmqWHSsuqquLTdcb1B4_4z4T3kIlQv10pu5oYnb2gAz86V/pubhtml).
 
