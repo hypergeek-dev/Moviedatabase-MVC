@@ -90,11 +90,16 @@
 
         {% endblock content %}
     </main>
-
-
-    <footer>
-
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container text-center">
+            {% if user.is_staff %}
+                <a href="{% url 'admin:index' %}" class="btn btn-primary">
+                    <i class="fas fa-user-shield"></i> Admin Panel
+                </a>
+            {% endif %}
+        </div>
     </footer>
+    
     {% block javascript %}
 
     <script src="{% static 'js/UserFeedback.js' %}"></script>
