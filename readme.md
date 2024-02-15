@@ -35,7 +35,7 @@
 # Introduction
 ![amiresponsive](/static/images/amiresponsive.png)
 
-Quickfire Bulletin is a Django-based web application designed to revolutionize the way users engage with news bulletins. Unlike traditional platforms, it uniquely integrates real-time news fetching from the source, converts it into neat and readable articles without no to little need of editing. Users have the opportunity to comment on articles
+Quickfire Bulletin is a Django-based web application designed to revolutionize the way users engage with news bulletins. Unlike traditional platforms, it uniquely integrates real-time news fetching from the source, converts it into neat and readable articles without any need of editing. Users have the opportunity to comment on articles
 and the design is responsive on all devices. 
 
 [Live Demo](https://quickfirebulletin-9159c210d03e.herokuapp.com)
