@@ -33,7 +33,7 @@
 - [License](#license)
 
 # Introduction
-![amiresponsive](/static/images/amiresponsive.png)
+![amiresponsive](/static/images/amiresponsive.webp)
 
 Quickfire Bulletin is a Django-based web application designed to revolutionize the way users engage with news bulletins. Unlike traditional platforms, it uniquely integrates real-time news fetching from the source, converts it into neat and readable articles without any need of editing. Users have the opportunity to comment on articles
 and the design is responsive on all devices. 
@@ -55,14 +55,14 @@ The following is a visual presentation of the features implemented in this app.
 
 ### User Authentication
 
-![User signup](static/images/Signup.png)
-![User login](static/images/login.png)
+![User signup](static/images/Signup.webp)
+![User login](static/images/login.webp)
 
 See how users can effortlessly register, log in, and navigate through their accounts.
 
 ### Commenting System
 
-![Commenting](static/images/comment_field.png)
+![Commenting](static/images/comment_field.webp)
 
 A look at the dynamic commenting feature that fosters community discussions on news articles. From the top, it shows how it looks after the edit has been pressed and save changes or delete function is available.
 
@@ -70,13 +70,13 @@ At the bottom, it shows a regular submit comment field.
 
 ### Pagination
 
-![Pagination and admin access](static/images/admin.png)
+![Pagination and admin access](static/images/admin.webp)
 
 This is the pagination button, ensuring a clean and accessible user experience. Also visible is the admin-panel button accessible for admins after a successful login attempt. Any other user will not see this button.
 
 ### Feedback
 <p float="left">
-  <img src="/static/images/feedback.png" alt="feedback" width="500" />
+  <img src="/static/images/feedback.webp" alt="feedback" width="500" />
 </p>
 
 Both visitors and authorized users can submit feedback to the site.
@@ -171,11 +171,11 @@ This process is also described
 # Development
 I planned from the beginning for a simplistic design, aiming for high accessibility and at the same time minimal use of ressources.
 
-![Wireframe 1](/static/images/Wireframe1.png )
+![Wireframe 1](/static/images/Wireframe1.webp )
 
 <p float="left">
-  <img src="/static/images/Wireframe2.png" alt="Wireframe 2" width="450" />
-  <img src="/static/images/Wireframe3.png" alt="Wireframe 3" width="450" />
+  <img src="/static/images/Wireframe2.webp" alt="Wireframe 2" width="450" />
+  <img src="/static/images/Wireframe3.webp" alt="Wireframe 3" width="450" />
 </p>
 
 As part of my development process, I've identified and prioritized features and tasks using the MoSCoW method (Must have, Should have, Could have, Won't have this time). For a more detailed breakdown and elaboration of these priorities and how they align with my project goals, please refer to my detailed planning document available here: [Detailed Project Planning and Prioritization](https://docs.google.com/spreadsheets/d/e/2PACX-1vSc2WF7hxm_uG6K457U6--8xUPsG_PwHrYmqWHSsuqquLTdcb1B4_4z4T3kIlQv10pu5oYnb2gAz86V/pubhtml).
@@ -191,7 +191,7 @@ First I had to fetch the response from the API. The response was then formed as 
 - **Missing Fields in Form**: After adding "Name" and "Email" fields, the form data sent to the server did not include this information. Adjusting the JavaScript code handling form submission to include these values solved the issue.
 
 # Database Relationships Overview
-![diagram](/static/images/diagram.png )
+![diagram](/static/images/diagram.webp )
 
 ## User Model
 
@@ -239,14 +239,14 @@ My conclusion is that through observation they are functioning and in use, so it
 
 ##Lighthouse
 
-![Lighthouse](/static/images/lighthouse.png)
+![Lighthouse](/static/images/lighthouse.webp)
 
 Because of the simplistic design without the need of images. I was able to achieve a high evaluation in lighthouse
 
 At [Website Page Size Checker Output](https://www.toolscrowd.com/website-page-size-checker/)
 I checked the size of the initial load.
 
-![Filezise](/static/images/filesize.png)
+![Filezise](/static/images/filesize.webp)
 
 # Manual Testing of the UI
 
