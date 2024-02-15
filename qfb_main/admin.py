@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import NewsArticle
 from django_summernote.admin import SummernoteModelAdmin
+from django_summernote.models import Attachment
 
 @admin.register(NewsArticle)
 class NewsArticleAdmin(SummernoteModelAdmin):
@@ -26,3 +27,5 @@ class NewsArticleAdmin(SummernoteModelAdmin):
             bool: True if the user is a superuser, False otherwise.
         """
         return request.user.is_superuser
+    
+    admin.site.unregister(Attachment)
