@@ -55,3 +55,30 @@ body {
         font-size: 6.5vw; 
     }
 }
+
+.custom_alert  {
+margin-bottom: 20px; 
+background-color: #333; 
+color: #fff; 
+border: 1px solid #444;
+
+}
+
+
+@media (max-width: 768px) {
+    /* Adjust styles for tablet and below */
+    .form-group {
+        display: block;
+        width: 100%;
+    }
+    .form-group label,
+    .form-group input,
+    .form-group small {
+        display: block; /* Stack elements vertically */
+    }
+    .form-group input,
+    .form-group button {
+        width: 100%; /* Full width for inputs and buttons */
+        margin-top: 0.5rem;
+    }
+}
