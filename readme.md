@@ -157,7 +157,7 @@ I checked the size of the initial load.
 
 ![Filezise](/static/images/filesize.png)
 
-## Manual testing
+## Manual testing of the UI
 
 ### From an *admins perspective*, I have tested the following
 
@@ -186,6 +186,22 @@ I was able to read articles and comments readily accessible on the website
 
 ### Full managability on own comments
 I was able to read, edit and delete own comments
+
+## Manual Testing of the javafunctions
+
+### From an *authenticated user's perspective*:
+
+#### Adding Comments
+- **When adding comments**: I was able to fill out and submit the feedback form without page reload. The AJAX request correctly targeted the `/comments/add_comment/` endpoint when an article ID was present, and feedback was immediately visible on the page after a successful submission.
+
+#### Editing Comments
+- **When editing comments**: By clicking the edit button next to a comment, the form for editing was displayed, and the submission was processed without reloading the page. The AJAX request was sent to `/comments/edit_comment/[commentId]/`, and the edited content was correctly updated on the page.
+
+#### Deleting Comments
+- **When deleting comments**: The delete button next to each comment triggered an AJAX call to `/comments/delete_comment/[commentId]/` without reloading the page. Upon successful deletion, the comment was removed from the display, confirming the operation's success.
+
+Each action was followed by appropriate user feedback through alerts, indicating success or error messages based on the operation outcome. The CSRF token handling ensured secure post requests, and the dynamic response to AJAX calls facilitated a smooth, interruption-free user experience.
+
 
 ## Automated testing
 ### How to Run Tests:
