@@ -27,6 +27,8 @@ and the design is responsive on all devices.
 - **As an admin, I can log in and access the admin panel.** This allows me to manage the platform efficiently.
 
 - **As an admin, I can create, edit, and delete articles.** This enables me to keep the content on the platform up-to-date and relevant.
+  
+- ** as an admin, i can access, read, edit and delete feedback from visitors. 
 
 - **As an admin, I can moderate comments on articles.** This helps in maintaining a respectful and constructive discussion environment on the platform.
 
