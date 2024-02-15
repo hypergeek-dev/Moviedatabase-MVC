@@ -5,7 +5,7 @@
 ## Introduction
 ![amiresponsive](/static/images/amiresponsive.png)
 
-Quickfire Bulletin is a Django-based web application designed to revolutionize the way users engage with news bulletins. Unlike traditional platforms, it uniquely integrates real-time news fetching from the source, converts it into neat and readable articles without no to little need of editing. Users have the oppertunity to comment on articles
+Quickfire Bulletin is a Django-based web application designed to revolutionize the way users engage with news bulletins. Unlike traditional platforms, it uniquely integrates real-time news fetching from the source, converts it into neat and readable articles without no to little need of editing. Users have the opportunity to comment on articles
 and the design is responsive on all devices. 
 
 [Live Demo](https://quickfirebulletin-9159c210d03e.herokuapp.com)
@@ -39,6 +39,7 @@ and the design is responsive on all devices.
 ## Visitor Stories (Not Registered)
 
 - **As a visitor, I can view the latest news articles.** This allows me to stay informed about the latest news and events without needing to register or log in.
+- **as a visitor, I can read the comments authorized users made to articles.** This allows me to stay informed about opinions shared from other people. 
 - **As a visitor, I can submit feedback through the feedback form** This allows me to give my opinion on the current state of the website and further improvements.
 
 This process is also described
@@ -161,42 +162,47 @@ I checked the size of the initial load.
 
 ![Filezise](/static/images/filesize.png)
 
-## Manual testing of the UI
+# Manual Testing of the UI
 
-### From an *admins perspective*, I have tested the following
+## From an *Admin's Perspective*
 
-Expected outcome: 
+**Expected Outcome:**
 
-#### Full access to admin panel
-I was able to access the admin panel
+### Full Access to Admin Panel
+- I was able to access the admin panel.
 
-### Full managability on articles
-I was able to add, edit and delete articles.
+### Full Manageability on Articles
+- I was able to add, edit, and delete articles.
 
-### Full managability on comments
-I was able to add, edit and delete comments.
+### Full Manageability on Comments
+- I was able to add, edit, and delete comments.
 
-### Full managability on users
+### Full Manageability on Users
+- I was able to add, edit, and delete users.
 
-I was able to add, edit and delete users.
-<hr>
+---
 
-### From an *authenticated users* perspective:
+## From an *Authenticated User's Perspective*
 
-Expected outcome
+**Expected Outcome:**
 
-### Access to content
-I was able to read articles and comments readily accessible on the website
+### Access to Content
+- I was able to read articles and comments readily accessible on the website.
 
-### Full managability on own comments
-I was able to read, edit and delete own comments
+### Full Manageability on Own Comments
+- I was able to read, edit, and delete my own comments.
 
-### from a visitors perspective(Unauthorized)
+---
 
-Expected outcome
+## From a Visitor's Perspective (Unauthorized)
 
-### Feedback form
-I was able to write feedback to the site and submit it successfully. 
+**Expected Outcome:**
+
+### Feedback Form
+- I was able to read all newsarticles available on the site.
+- I was able to read all comments made by authorized users on the site. 
+- I was able to write feedback to the site and submit it successfully.
+
 
 ## Manual Testing of the javafunctions
 
