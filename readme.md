@@ -2,7 +2,7 @@
 
 ## Table of Contents
 
-## Introduction
+# Introduction
 ![amiresponsive](/static/images/amiresponsive.png)
 
 Quickfire Bulletin is a Django-based web application designed to revolutionize the way users engage with news bulletins. Unlike traditional platforms, it uniquely integrates real-time news fetching from the source, converts it into neat and readable articles without no to little need of editing. Users have the opportunity to comment on articles
@@ -11,7 +11,7 @@ and the design is responsive on all devices.
 [Live Demo](https://quickfirebulletin-9159c210d03e.herokuapp.com)
 
 
-## Features
+# Features
 
 - **News API Integration**: The application fetches news articles from the NewsData.io API and populates the database with the latest news.
 - **User Authentication**: Users can register, log in, and log out.
@@ -19,20 +19,20 @@ and the design is responsive on all devices.
 - **Commenting**: Users can comment on news articles.
 - **Pagination**: The home page displays news articles in a paginated format.
 
-## Visual Overview
+# Visual Overview
 
 The following is a visual presentation of the features implemented in this app.
 
 ### User Authentication
 
-![User signup](static/images/staticfiles/images/signup.png)
-![User login](static/images/staticfiles/images/login.png)
+![User signup](static/images/static/images/signup.png)
+![User login](static/images/static/images/login.png)
 
 See how users can effortlessly register, log in, and navigate through their accounts.
 
 ### Commenting System
 
-![Commenting](static/images/comment_-_field.png)
+![Commenting](static/images/comment_field.png)
 
 A look at the dynamic commenting feature that fosters community discussions on news articles. From the top, it shows how it looks after the edit has been pressed and save changes or delete function is available.
 
@@ -45,8 +45,9 @@ At the bottom, it shows a regular submit comment field.
 This is the pagination button, ensuring a clean and accessible user experience. Also visible is the admin-panel button accessible for admins after a successful login attempt. Any other user will not see this button.
 
 ### Feedback
-
-![Feedback form](static/images/feedback.png)
+<p float="left">
+  <img src="/static/images/feedback.png" alt="feedback" width="500" />
+</p>
 
 Both visitors and authorized users can submit feedback to the site.
 
@@ -74,7 +75,7 @@ Both visitors and authorized users can submit feedback to the site.
 
 This process is also described
 
-## Technical Stack
+# Technical Stack
 
 - **Backend**: Python, Django
 - **Frontend**: HTML, CSS, Javascript.
@@ -82,7 +83,7 @@ This process is also described
 - **Static Files**: Managed using Whitenoise
 - **API**: NewsData.io
 
-## Installation
+# Installation
 
 1. Clone the repository:
     ```bash
@@ -137,7 +138,7 @@ This process is also described
     python manage.py runserver
     ```
 
-#### Development
+# Development
 I planned from the beginning for a simplistic design, aiming for high accessibility and at the same time minimal use of ressources.
 
 ![Wireframe 1](/static/images/Wireframe1.png )
