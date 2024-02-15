@@ -3,13 +3,13 @@
 ## Table of Contents
 
 ## Introduction
+![amiresponsive](/static/images/amiresponsive.png)
 
-Quickfire Bulletin is a cutting-edge Django-based web application designed to revolutionize the way users engage with news bulletins. Unlike traditional platforms, it uniquely integrates real-time news fetching with interactive user features like commenting and liking, fostering a dynamic community of informed individuals. What sets Quickfire Bulletin apart is its commitment to [unique selling points or features], designed with a focus on modularity, extensibility, and a seamless user experience.
+Quickfire Bulletin is a Django-based web application designed to revolutionize the way users engage with news bulletins. Unlike traditional platforms, it uniquely integrates real-time news fetching from the source, converts it into neat and readable articles without no to little need of editing. Users have the oppertunity to comment on articles
+and the design is responsive on all devices. 
 
 [Live Demo](https://quickfirebulletin-9159c210d03e.herokuapp.com)
 
-
-[The site is live here](https://quickfire-bulletin-1054d3494a4d.herokuapp.com/)
 
 ## Features
 
@@ -39,7 +39,7 @@ As a visitor, I can:
 ## Technical Stack
 
 - **Backend**: Python, Django
-- **Frontend**: HTML, CSS
+- **Frontend**: HTML, CSS, Javascript.
 - **Database**: PostgreSQL
 - **Static Files**: Managed using Whitenoise
 - **API**: NewsData.io
@@ -100,7 +100,13 @@ As a visitor, I can:
     ```
 
 #### Development
+I planned from the beginning for a simplistic design, aiming for high accessibility and at the same time minimal use of ressources.
 
+![Wireframe 1](/static/images/Wireframe1.png)
+
+![Wireframe 2](/static/images/Wireframe2.png)
+
+![Wireframe 3](/static/images/Wireframe3.png)
 ### Development Challenges
 
 - **API Integration**: Integrating NewsData.io API to fetch and display news articles.
@@ -131,17 +137,58 @@ I have used JShint to validate my javascript implemented for handling user feedb
 The results shows that the variables showEditForm and hideEditForm are not in use.
 My conclusion is that through observation they are functioning and in use, so it must be a false positive. 
 
-## Testing
+# Testing
 
+##Lighthouse
+
+![Lighthouse](/static/images/lighthouse.png)
+
+Because of the simplistic design without the need of images. I was able to achieve a high evaluation in lighthouse
+
+At [Website Page Size Checker Output](https://www.toolscrowd.com/website-page-size-checker/)
+I checked the size of the initial load.
+
+![Filezise](/static/images/filesize.png)
+
+## Manual testing
+
+### From an *admins perspective*, I have tested the following
+
+Expected outcome: 
+
+#### Full access to admin panel
+I was able to access the admin panel
+
+### Full managability on articles
+I was able to add, edit and delete articles.
+
+### Full managability on comments
+I was able to add, edit and delete comments.
+
+### Full managability on users
+
+I was able to add, edit and delete users.
+<hr>
+
+### From an *authenticated users* perspective:
+
+Expected outcome
+
+### Access to content
+I was able to read articles and comments readily accessible on the website
+
+### Full managability on own comments
+I was able to read, edit and delete own comments
+
+## Automated testing
 ### How to Run Tests:
 
-1. For main app function of rendering newsarticles:
+1. To run automatic tests for rendering articles functionality:
 
 Run the following command:
  ```bash
 python manage.py test qfb_main
 ```
-
 
 This test does the following:
 - `test_make_api_call_success`: Tests that the `make_api_call` function successfully makes an API call and returns a 200 status code with expected JSON response.
@@ -155,20 +202,29 @@ Run the following command:
  ```bash
 python manage.py test comments
 ```
+- `test_valid_form_data`: Confirms that submitting valid form data to the `add_comment_to_article` endpoint returns a 200 status code, indicating success, and verifies the response content to ensure the comment was added successfully. The test checks for a `success` flag in the response and a valid `comment_id`.
 
+- `test_authenticated_user`: Verifies that an authenticated user can post a comment and that the comment is correctly associated with the user. It checks if the comment's user, name, and email fields match the logged-in user's details.
+
+- `test_invalid_http_method`: Ensures that using an invalid HTTP method (GET instead of POST) to the `add_comment_to_article` endpoint results in a 405 status code, indicating that the method is not allowed.
+
+- `test_article_not_found`: Tests the scenario where the specified article ID does not exist. It confirms that attempting to add a comment to a non-existent article returns a 404 status code, indicating that the article was not found.
+
+- `test_error_saving_comment`: Simulates an error during the comment saving process by mocking the `Comment.save` method to throw an exception. It verifies that the server responds with a 500 status code, indicating an internal server error.
+
+- `test_associate_comment_with_article`: Checks that a comment is correctly associated with the intended article. It posts valid form data and verifies that the comment's `news_article` field matches the article used in the setup.
+
+3.  To run automatic tests for feedback functionality:
 Run the following command:
  ```bash
-python manage.py test comments
+python manage.py test feedback
 ```
-This test does the following:
-test_feedback_view_get_request: Verifies the feedback view renders the correct template and form on a GET request.
-test_feedback_view_post_request_invalid: Tests handling of invalid form data submission in the feedback view, expecting specific form errors.
+- `test_feedback_view_get_request`: Verifies that the `feedback_view` correctly renders the expected template and form upon a GET request, ensuring the user interface meets design specifications.
 
+- `test_feedback_view_post_request_invalid`: Tests the `feedback_view`'s handling of invalid form submissions, expecting it to return specific form errors and validate input data integrity, ensuring robust error handling and user feedback mechanisms.
 
+# Contribution
 
-
-## Contributing
-
-## License
+# License
 
 Quickfire Bulletin is licensed under the MIT License. This permits personal and commercial use, modification, distribution, and private use. [More about the MIT License](https://opensource.org/licenses/MIT).
