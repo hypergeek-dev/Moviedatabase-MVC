@@ -99,8 +99,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-DEBUG = True
-
 MEDIA_URL = '/media/'
 DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
