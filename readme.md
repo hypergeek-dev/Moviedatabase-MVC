@@ -2,6 +2,36 @@
 
 ## Table of Contents
 
+- [Introduction](#introduction)
+- [Features](#features)
+- [Visual Overview](#visual-overview)
+  - [User Authentication](#user-authentication)
+  - [Commenting System](#commenting-system)
+  - [Pagination](#pagination)
+  - [Feedback](#feedback)
+- [User Stories](#user-stories)
+  - [Admin Stories](#admin-stories)
+  - [Registered User Stories](#registered-user-stories)
+  - [Visitor Stories (Not Registered)](#visitor-stories-not-registered)
+- [Technical Stack](#technical-stack)
+- [Installation](#installation)
+- [Development](#development)
+  - [Development Challenges](#development-challenges)
+- [Database Relationships Overview](#database-relationships-overview)
+  - [User Model](#user-model)
+  - [NewsArticle Model](#newsarticle-model)
+  - [Comment Model](#comment-model)
+- [Validation](#validation)
+- [Testing](#testing)
+  - [Lighthouse](#lighthouse)
+  - [Manual Testing of the UI](#manual-testing-of-the-ui)
+    - [From an Admin's Perspective](#from-an-admins-perspective)
+    - [From an Authenticated User's Perspective](#from-an-authenticated-users-perspective)
+    - [From a Visitor's Perspective (Unauthorized)](#from-a-visitors-perspective-unauthorized)
+  - [Manual Testing of the javafunctions](#manual-testing-of-the-javafunctions)
+  - [Automated testing](#automated-testing)
+- [License](#license)
+
 # Introduction
 ![amiresponsive](/static/images/amiresponsive.png)
 
