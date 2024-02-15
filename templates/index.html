@@ -4,6 +4,11 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-lg-8 col-md-10 mt-3">
+            {% if not user.is_authenticated %}
+            <div class="alert alert-info text-center custom_alert" role="alert">
+                Log in to be able to comment on articles
+            </div>
+            {% endif %}
             {% for news_article in news_article_list %}
             <div class="card mb-4">
                 <div class="card-body box-shadowed">
