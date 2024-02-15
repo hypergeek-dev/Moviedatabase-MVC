@@ -25,8 +25,8 @@ The following is a visual presentation of the features implemented in this app.
 
 ### User Authentication
 
-![User signup](static/images/static/images/signup.png)
-![User login](static/images/static/images/login.png)
+![User signup](static/images/signup.png)
+![User login](static/images/login.png)
 
 See how users can effortlessly register, log in, and navigate through their accounts.
 
