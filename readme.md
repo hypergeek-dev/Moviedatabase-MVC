@@ -172,13 +172,16 @@ I checked the size of the initial load.
 - I was able to access the admin panel.
 
 ### Full Manageability on Articles
-- I was able to add, edit, and delete articles.
+- I was able to read, add, edit, and delete articles.
 
 ### Full Manageability on Comments
-- I was able to add, edit, and delete comments.
+- I was able to read, add, edit, and delete comments.
 
 ### Full Manageability on Users
-- I was able to add, edit, and delete users.
+- I was able to read, add, edit, and delete users.
+
+### Access to feedback
+- I was able to read, add, edit and delete feedback from users.
 
 ---
 
