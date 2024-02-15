@@ -19,22 +19,26 @@ and the design is responsive on all devices.
 - **Commenting**: Users can comment on news articles.
 - **Pagination**: The home page displays news articles in a paginated format.
 
-## User Stories
 
-### Admin Stories
+# User Stories
 
-As an admin, I can:
-- Log in and access the admin panel.
-- Create, edit, and delete articles
-- Create, edit, and delete comments
-- Manage user accounts.
+## Admin Stories
 
-### Visitor Stories
+- **As an admin, I can log in and access the admin panel.** This allows me to manage the platform efficiently.
 
-As a visitor, I can:
-- Register an account or log in.
-- View the latest newsarticles.
-- Comment on newsarticles.
+- **As an admin, I can create, edit, and delete articles.** This enables me to keep the content on the platform up-to-date and relevant.
+
+- **As an admin, I can moderate comments on articles.** This helps in maintaining a respectful and constructive discussion environment on the platform.
+
+## Registered User Stories
+
+- **As a registered user, I can comment on news articles.** This enables me to participate in discussions and share my thoughts on news articles after logging in.
+
+## Visitor Stories (Not Registered)
+
+- **As a visitor, I can view the latest news articles.** This allows me to stay informed about the latest news and events without needing to register or log in.
+
+This process is also described
 
 ## Technical Stack
 
@@ -107,6 +111,9 @@ I planned from the beginning for a simplistic design, aiming for high accessibil
 ![Wireframe 2](/static/images/Wireframe2.png)
 
 ![Wireframe 3](/static/images/Wireframe3.png)
+
+As part of my development process, I've identified and prioritized features and tasks using the MoSCoW method (Must have, Should have, Could have, Won't have this time). For a more detailed breakdown and elaboration of these priorities and how they align with my project goals, please refer to my detailed planning document available here: [Detailed Project Planning and Prioritization](https://docs.google.com/spreadsheets/d/e/2PACX-1vSc2WF7hxm_uG6K457U6--8xUPsG_PwHrYmqWHSsuqquLTdcb1B4_4z4T3kIlQv10pu5oYnb2gAz86V/pubhtml).
+
 ### Development Challenges
 
 - **API Integration**: Integrating NewsData.io API to fetch and display news articles.
