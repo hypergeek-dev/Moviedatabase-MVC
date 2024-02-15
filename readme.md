@@ -39,6 +39,7 @@ and the design is responsive on all devices.
 ## Visitor Stories (Not Registered)
 
 - **As a visitor, I can view the latest news articles.** This allows me to stay informed about the latest news and events without needing to register or log in.
+- **As a visitor, I can submit feedback through the feedback form** This allows me to give my opinion on the current state of the website and further improvements.
 
 This process is also described
 
@@ -189,6 +190,13 @@ I was able to read articles and comments readily accessible on the website
 
 ### Full managability on own comments
 I was able to read, edit and delete own comments
+
+### from a visitors perspective(Unauthorized)
+
+Expected outcome
+
+### Feedback form
+I was able to write feedback to the site and submit it successfully. 
 
 ## Manual Testing of the javafunctions
 
