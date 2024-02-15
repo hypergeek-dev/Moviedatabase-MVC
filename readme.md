@@ -105,10 +105,8 @@ This process is also described
 
 #### Development
 I planned from the beginning for a simplistic design, aiming for high accessibility and at the same time minimal use of ressources.
-
-<img src="/static/images/Wireframe1.png" alt="Wireframe 1" width="600"
-
 <p float="left">
+<img src="/static/images/Wireframe1.png" alt="Wireframe 1" width="600"
   <img src="/static/images/Wireframe2.png" alt="Wireframe 2" width="400" />
   <img src="/static/images/Wireframe3.png" alt="Wireframe 3" width="400" />
 </p>
