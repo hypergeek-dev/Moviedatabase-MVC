@@ -263,7 +263,6 @@ python manage.py test feedback
 
 - `test_feedback_view_post_request_invalid`: Tests the `feedback_view`'s handling of invalid form submissions, expecting it to return specific form errors and validate input data integrity, ensuring robust error handling and user feedback mechanisms.
 
-# Contribution
 
 # License
 
